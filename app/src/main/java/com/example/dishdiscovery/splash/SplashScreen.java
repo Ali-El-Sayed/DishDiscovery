@@ -7,8 +7,8 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dishdiscovery.MainActivity;
 import com.example.dishdiscovery.R;
-import com.example.dishdiscovery.login.view.Login;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class SplashScreen extends AppCompatActivity {
 
         new Handler(Looper.getMainLooper()) {
         }.postDelayed(() -> {
-            Intent intent = new Intent(SplashScreen.this, Login.class);
+            Intent intent = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(intent);
             finish();
         }, 3000);

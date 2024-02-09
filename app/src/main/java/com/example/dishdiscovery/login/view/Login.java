@@ -9,14 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.databinding.ActivityLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
+import com.example.dishdiscovery.repository.Repository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity implements ILogin {
@@ -28,7 +29,6 @@ public class Login extends AppCompatActivity implements ILogin {
     TextInputEditText textInputEditTextPassword;
     Button btnSignInWithGoogle;
     Button btnLoginWithEmail;
-    private FirebaseAuth mAuth;
 
     ILoginPresenter presenter;
 
@@ -38,20 +38,12 @@ public class Login extends AppCompatActivity implements ILogin {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initUi();
-        mAuth = FirebaseAuth.getInstance();
-        presenter = new LoginPresenter(this);
+        presenter = new LoginPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(this)));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // User is signed in
-        } else {
-            // No user is signed in
-        }
     }
 
     private void initUi() {
@@ -65,7 +57,6 @@ public class Login extends AppCompatActivity implements ILogin {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // check if email is valid
                 if (s.toString().isEmpty()) {
                     textInputLayoutEmail.setErrorEnabled(true);
                     textInputLayoutEmail.setError("Email is required");
@@ -92,32 +83,7 @@ public class Login extends AppCompatActivity implements ILogin {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // check if password is valid
-                if (s.length() < 6) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must be at least 6 characters");
-                } else if (s.length() > 20) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must be at most 20 characters");
-                } else if (s.toString().contains(" ")) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must not contain spaces");
-                } else if (!s.toString().matches(".*\\d.*")) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must contain at least one digit");
-                } else if (!s.toString().matches(".*[a-z].*")) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must contain at least one lowercase letter");
-                } else if (!s.toString().matches(".*[A-Z].*")) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must contain at least one uppercase letter");
-                } else if (!s.toString().matches(".*[!@#$%^&*].*")) {
-                    textInputLayoutPassword.setErrorEnabled(true);
-                    textInputLayoutPassword.setError("Password must contain at least one special character");
-                } else {
-                    textInputLayoutPassword.setErrorEnabled(false);
-                    textInputLayoutPassword.setError(null);
-                }
+                passwordValidation(s);
             }
 
             @Override
@@ -129,14 +95,43 @@ public class Login extends AppCompatActivity implements ILogin {
 
         // sign in with google button click listener
         btnLoginWithEmail.setOnClickListener(v -> {
-            String email = textInputEditTextEmail.getText().toString(), password = textInputEditTextPassword.getText().toString();
+            String email = textInputEditTextEmail.getText().toString(),
+                    password = textInputEditTextPassword.getText().toString();
             presenter.loginWithEmail(email, password);
         });
     }
 
+    private void passwordValidation(CharSequence s) {
+        if (s.length() < 6) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must be at least 6 characters");
+        } else if (s.length() > 20) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must be at most 20 characters");
+        } else if (s.toString().contains(" ")) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must not contain spaces");
+        } else if (!s.toString().matches(".*\\d.*")) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must contain at least one digit");
+        } else if (!s.toString().matches(".*[a-z].*")) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must contain at least one lowercase letter");
+        } else if (!s.toString().matches(".*[A-Z].*")) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must contain at least one uppercase letter");
+        } else if (!s.toString().matches(".*[!@#$%^&*].*")) {
+            textInputLayoutPassword.setErrorEnabled(true);
+            textInputLayoutPassword.setError("Password must contain at least one special character");
+        } else {
+            textInputLayoutPassword.setErrorEnabled(false);
+            textInputLayoutPassword.setError(null);
+        }
+    }
+
     @Override
     public void onLoginSuccess(Task<AuthResult> task) {
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = task.getResult().getUser();
         Log.i(TAG, "Login onComplete: user id: " + user.getUid());
         Toast.makeText(Login.this, "Authentication success.", Toast.LENGTH_SHORT).show();
 
