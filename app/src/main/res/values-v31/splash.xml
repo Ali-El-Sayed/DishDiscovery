@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="Theme.DishDiscovery.SplashScreen" parent="Theme.DishDiscovery">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/burger_huge_svgrepo_com</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.DishDiscovery</item>
+
+    </style>
+</resources>

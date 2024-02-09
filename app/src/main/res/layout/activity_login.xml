@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg">
+
+    <View
+        android:id="@+id/blackOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp"
+        tools:context=".login.view.Login">
+        <!--Email input field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEmailLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="28dp"
+            app:boxStrokeColor="@color/btn_txt_color"
+            app:errorTextColor="@color/error_color"
+            app:layout_constraintBottom_toTopOf="@+id/etPasswordLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/e_mail"
+                android:inputType="textEmailAddress"
+                android:text="aliloka@gmail.com"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Password input field    -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="400dp"
+            app:boxStrokeColor="@color/btn_txt_color"
+            app:endIconMode="password_toggle"
+            app:errorTextColor="@color/error_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:text="Alielsayed@22"
+                android:textColor="@color/btn_txt_color"
+                android:textSize="20sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Login with email button-->
+        <!--Sing in with Google button -->
+        <Button
+            android:id="@+id/btnLoginWithEmail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#ffffff"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/login"
+            android:textColor="@color/btn_txt_color"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPasswordLayout"
+            app:rippleColor="@color/btn_ripple_color" />
+
+        <Button
+            android:id="@+id/btnSignInWithGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="52dp"
+            android:backgroundTint="#ffffff"
+            android:text="@string/sign_in_with_google"
+            android:textColor="@color/btn_txt_color"
+            android:textSize="20sp"
+            app:icon="@drawable/ico_google"
+            app:iconSize="24dp"
+            app:iconTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/btn_ripple_color" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>

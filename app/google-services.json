@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "479169052626",
+    "project_id": "dishdiscovery-ec87b",
+    "storage_bucket": "dishdiscovery-ec87b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479169052626:android:152cee6f30c9d929ebd20b",
+        "android_client_info": {
+          "package_name": "com.example.dishdiscovery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479169052626-7aq1rf2b7ln4sbpvvj1vk3fq62hmbjlh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dishdiscovery",
+            "certificate_hash": "dd1f91d4e2ce194493ec0341d89aa1d6d0b41ad0"
+          }
+        },
+        {
+          "client_id": "479169052626-smgdmil2di0q3rv7ohvvlburhddtk1du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTalAovyYuN2jK6mF0IhhdrwOLY6tM3eA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479169052626-smgdmil2di0q3rv7ohvvlburhddtk1du.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

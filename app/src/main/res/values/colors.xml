@@ -1,0 +1,6 @@
+<resources>
+    <color name="btn_background">#e8e8e8</color>
+    <color name="btn_txt_color">#1f1f1f</color>
+    <color name="btn_ripple_color">#D8D7D7</color>
+    <color name="error_color">#FF3636</color>
+</resources>
