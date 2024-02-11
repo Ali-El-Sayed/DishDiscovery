@@ -37,6 +37,6 @@ public class LoginRegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.btnLogin.setOnClickListener(v -> navController.navigate(R.id.action_loginRegisterFragment_to_loginFragment));
-
+        binding.btnRegister.setOnClickListener(v -> navController.navigate(R.id.action_loginRegisterFragment_to_registerFragment));
     }
 }
