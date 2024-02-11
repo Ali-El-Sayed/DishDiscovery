@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.example.dishdiscovery.authDataSource.authEmailPassword.IAuthEmailPassword;
 import com.example.dishdiscovery.login.presenter.OnLoginComplete;
+import com.example.dishdiscovery.register.presenter.OnRegisterComplete;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class FirebaseAuthentication implements IAuthEmailPassword {
@@ -25,5 +26,10 @@ public class FirebaseAuthentication implements IAuthEmailPassword {
     @Override
     public void loginWithEmail(OnLoginComplete onLoginComplete, String email, String password) {
         _firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity, onLoginComplete::onComplete);
+    }
+
+    @Override
+    public void registerWithEmail(OnRegisterComplete onRegisterComplete, String email, String password) {
+        _firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, onRegisterComplete::onComplete);
     }
 }

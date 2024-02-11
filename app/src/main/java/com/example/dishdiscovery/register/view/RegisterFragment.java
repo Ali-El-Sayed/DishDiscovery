@@ -1,54 +1,67 @@
-package com.example.dishdiscovery.login.view;
+package com.example.dishdiscovery.register.view;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
-import com.example.dishdiscovery.databinding.ActivityLoginBinding;
-import com.example.dishdiscovery.login.presenter.ILoginPresenter;
-import com.example.dishdiscovery.login.presenter.LoginPresenter;
+import com.example.dishdiscovery.databinding.FragmentRegisterBinding;
+import com.example.dishdiscovery.register.presenter.IRegisterPresenter;
+import com.example.dishdiscovery.register.presenter.RegisterPresenter;
 import com.example.dishdiscovery.repository.Repository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity implements ILogin {
-    private static final String TAG = "Login";
-    ActivityLoginBinding binding;
+public class RegisterFragment extends Fragment implements IRegister {
+    private static final String TAG = "Register";
+    private FragmentRegisterBinding binding;
     TextInputEditText textInputEditTextEmail;
     TextInputLayout textInputLayoutEmail;
     TextInputLayout textInputLayoutPassword;
     TextInputEditText textInputEditTextPassword;
     Button btnSignInWithGoogle;
-    Button btnLoginWithEmail;
-
-    ILoginPresenter presenter;
+    Button btnRegisterWithEmail;
+    private IRegisterPresenter registerPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        initUi();
-        presenter = new LoginPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(this)));
+        registerPresenter = new RegisterPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentRegisterBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initUi();
     }
 
     private void initUi() {
+        // UI initialization
         textInputEditTextEmail = binding.etEmail;
         textInputLayoutEmail = binding.etEmailLayout;
+        textInputEditTextPassword = binding.etPassword;
+        textInputLayoutPassword = binding.etPasswordLayout;
+        btnSignInWithGoogle = binding.btnSignInWithGoogle;
+        btnRegisterWithEmail = binding.btnRegisterWithEmail;
+
         // email change listener
         textInputEditTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -57,24 +70,15 @@ public class Login extends AppCompatActivity implements ILogin {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().isEmpty()) {
-                    textInputLayoutEmail.setErrorEnabled(true);
-                    textInputLayoutEmail.setError("Email is required");
-                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-                    textInputLayoutEmail.setErrorEnabled(true);
-                    textInputLayoutEmail.setError("Invalid email");
-                } else {
-                    textInputLayoutEmail.setErrorEnabled(false);
-                    textInputLayoutEmail.setError(null);
-                }
+                emailValidation(s);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-        textInputEditTextPassword = binding.etPassword;
-        textInputLayoutPassword = binding.etPasswordLayout;
+
+
         // password change listener
         textInputEditTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,18 +94,16 @@ public class Login extends AppCompatActivity implements ILogin {
             public void afterTextChanged(Editable s) {
             }
         });
-        btnSignInWithGoogle = binding.btnSignInWithGoogle;
-        btnLoginWithEmail = binding.btnLoginWithEmail;
+
 
         // sign in with google button click listener
-        btnLoginWithEmail.setOnClickListener(v -> {
-            String email = textInputEditTextEmail.getText().toString(),
-                    password = textInputEditTextPassword.getText().toString();
-            presenter.loginWithEmail(email, password);
+        btnRegisterWithEmail.setOnClickListener(v -> {
+            registerPresenter.registerWithEmail(textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString());
         });
     }
 
     private void passwordValidation(CharSequence s) {
+        // check if password is valid
         if (s.length() < 6) {
             textInputLayoutPassword.setErrorEnabled(true);
             textInputLayoutPassword.setError("Password must be at least 6 characters");
@@ -129,16 +131,29 @@ public class Login extends AppCompatActivity implements ILogin {
         }
     }
 
+    private void emailValidation(CharSequence s) {
+        // check if email is valid
+        if (s.toString().isEmpty()) {
+            textInputLayoutEmail.setErrorEnabled(true);
+            textInputLayoutEmail.setError("Email is required");
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+            textInputLayoutEmail.setErrorEnabled(true);
+            textInputLayoutEmail.setError("Invalid email");
+        } else {
+            textInputLayoutEmail.setErrorEnabled(false);
+            textInputLayoutEmail.setError(null);
+        }
+    }
+
     @Override
-    public void onLoginSuccess(Task<AuthResult> task) {
-        FirebaseUser user = task.getResult().getUser();
-        Log.i(TAG, "Login onComplete: user id: " + user.getUid());
-        Toast.makeText(Login.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+    public void onRegisterSuccess(Task<AuthResult> task) {
+        Toast.makeText(getActivity(), "Registration success.", Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onLoginFailure(Exception e) {
-        Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+    public void onRegisterFailure(Exception e) {
+        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
     }
 }

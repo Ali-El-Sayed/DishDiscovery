@@ -1,6 +1,8 @@
 package com.example.dishdiscovery.login.view;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
+import com.example.dishdiscovery.databinding.FragmentLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
 import com.example.dishdiscovery.repository.Repository;
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginFragment extends Fragment implements ILogin {
     private static final String TAG = "LoginFragment";
+    private FragmentLoginBinding binding;
     TextInputEditText textInputEditTextEmail;
     TextInputLayout textInputLayoutEmail;
     TextInputLayout textInputLayoutPassword;
@@ -44,71 +47,71 @@ public class LoginFragment extends Fragment implements ILogin {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        initUi();
+        initUi();
         presenter = new LoginPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
 
     }
 
-//    private void initUi() {
-//        textInputEditTextEmail = binding.etEmail;
-//        textInputLayoutEmail = binding.etEmailLayout;
-//        // email change listener
-//        textInputEditTextEmail.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (s.toString().isEmpty()) {
-//                    textInputLayoutEmail.setErrorEnabled(true);
-//                    textInputLayoutEmail.setError("Email is required");
-//                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-//                    textInputLayoutEmail.setErrorEnabled(true);
-//                    textInputLayoutEmail.setError("Invalid email");
-//                } else {
-//                    textInputLayoutEmail.setErrorEnabled(false);
-//                    textInputLayoutEmail.setError(null);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
-//        textInputEditTextPassword = binding.etPassword;
-//        textInputLayoutPassword = binding.etPasswordLayout;
-//        // password change listener
-//        textInputEditTextPassword.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                passwordValidation(s);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
-//        btnSignInWithGoogle = binding.btnSignInWithGoogle;
-//        btnLoginWithEmail = binding.btnLoginWithEmail;
-//
-//        // sign in with google button click listener
-//        btnLoginWithEmail.setOnClickListener(v -> {
-//            String email = textInputEditTextEmail.getText().toString(), password = textInputEditTextPassword.getText().toString();
-//            presenter.loginWithEmail(email, password);
-//        });
-//    }
+    private void initUi() {
+        textInputEditTextEmail = binding.etEmail;
+        textInputLayoutEmail = binding.etEmailLayout;
+        // email change listener
+        textInputEditTextEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty()) {
+                    textInputLayoutEmail.setErrorEnabled(true);
+                    textInputLayoutEmail.setError("Email is required");
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+                    textInputLayoutEmail.setErrorEnabled(true);
+                    textInputLayoutEmail.setError("Invalid email");
+                } else {
+                    textInputLayoutEmail.setErrorEnabled(false);
+                    textInputLayoutEmail.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        textInputEditTextPassword = binding.etPassword;
+        textInputLayoutPassword = binding.etPasswordLayout;
+        // password change listener
+        textInputEditTextPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordValidation(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        btnSignInWithGoogle = binding.btnSignInWithGoogle;
+        btnLoginWithEmail = binding.btnLoginWithEmail;
+
+        // sign in with google button click listener
+        btnLoginWithEmail.setOnClickListener(v -> {
+            String email = textInputEditTextEmail.getText().toString(), password = textInputEditTextPassword.getText().toString();
+            presenter.loginWithEmail(email, password);
+        });
+    }
 
     private void passwordValidation(CharSequence s) {
         if (s.length() < 6) {

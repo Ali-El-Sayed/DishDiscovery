@@ -14,12 +14,20 @@
         <action
             android:id="@+id/action_loginRegisterFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dishdiscovery.login.view.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.dishdiscovery.register.view.RegisterFragment"
+        android:label="@string/register"
+        tools:layout="@layout/fragment_register" />
 
 
 </navigation>
