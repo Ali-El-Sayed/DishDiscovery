@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.register.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,11 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.dishdiscovery.HomeScreenActivity;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.databinding.FragmentRegisterBinding;
 import com.example.dishdiscovery.register.presenter.IRegisterPresenter;
 import com.example.dishdiscovery.register.presenter.RegisterPresenter;
-import com.example.dishdiscovery.repository.Repository;
+import com.example.dishdiscovery.repository.authRepo.AuthRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,7 +39,7 @@ public class RegisterFragment extends Fragment implements IRegister {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerPresenter = new RegisterPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+        registerPresenter = new RegisterPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
 
     }
 
@@ -148,12 +150,12 @@ public class RegisterFragment extends Fragment implements IRegister {
     @Override
     public void onRegisterSuccess(Task<AuthResult> task) {
         Toast.makeText(getActivity(), "Registration success.", Toast.LENGTH_SHORT).show();
-
+        startActivity(new Intent(getActivity(), HomeScreenActivity.class));
+        getActivity().finish();
     }
 
     @Override
     public void onRegisterFailure(Exception e) {
         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
     }
 }
