@@ -59,4 +59,8 @@
     <string name="koshari">Koshari</string>
     <string name="egypt">Egypt</string>
     <string name="meal_of_the_day">MEAL OF THE DAY</string>
+    <string name="meal_details">Meal Details</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="category_dessert">Category : Dessert</string>
+    <string name="area_egypt">Area : Egypt</string>
 </resources>

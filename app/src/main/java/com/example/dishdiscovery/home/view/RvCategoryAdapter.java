@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.home.view;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,20 +20,22 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     Meal meal;
     List<Category> categories;
+    private final OnCardItemClick _onCardItemClick;
 
-    public RvCategoryAdapter(Meal meal, List<Category> categories) {
+    public RvCategoryAdapter(OnCardItemClick onCardItemClick, Meal meal, List<Category> categories) {
         this.meal = meal;
         this.categories = categories;
+        this._onCardItemClick = onCardItemClick;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            View view = View.inflate(parent.getContext(), R.layout.meal_of_the_day_card, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_of_the_day_card, parent, false);
             return new MealOfTheDayViewHolder(view);
         } else {
-            View view = View.inflate(parent.getContext(), R.layout.category_card, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_card, parent, false);
             return new CategoryViewHolder(view);
         }
     }
@@ -40,20 +43,31 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
-            MealOfTheDayViewHolder mealOfTheDayViewHolder = (MealOfTheDayViewHolder) holder;
-            mealOfTheDayViewHolder.tvMealName.setText(meal.getStrMeal());
-            mealOfTheDayViewHolder.tvCountry.setText(meal.getStrArea());
-            Glide.with(mealOfTheDayViewHolder.ivMealImage.getContext()).load(meal.getStrMealThumb()).into(mealOfTheDayViewHolder.ivMealImage);
+            ((MealOfTheDayViewHolder) holder).bindData(meal);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    _onCardItemClick.onMealOfTheDayClick(meal.getIdMeal());
+                }
+            });
         } else {
-            CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
-            categoryViewHolder.tvCategoryName.setText(categories.get(position - 1).getStrCategory());
-            Glide.with(categoryViewHolder.ivCategoryImage.getContext()).load(categories.get(position - 1).getStrCategoryThumb()).into(categoryViewHolder.ivCategoryImage);
+            ((CategoryViewHolder) holder).bindData(categories.get(position - 1));
         }
     }
 
     @Override
     public int getItemCount() {
         return categories.size() + 1;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+        notifyDataSetChanged();
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -73,6 +87,12 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
             ivCategoryImage = itemView.findViewById(R.id.ivCategoryImage);
         }
+
+        public void bindData(Category category) {
+            tvCategoryName.setText(category.getStrCategory());
+            Glide.with(ivCategoryImage.getContext()).load(category.getStrCategoryThumb()).into(ivCategoryImage);
+        }
+
     }
 
     public class MealOfTheDayViewHolder extends RecyclerView.ViewHolder {
@@ -85,6 +105,12 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             tvMealName = itemView.findViewById(R.id.tvMealName);
             tvCountry = itemView.findViewById(R.id.tvCountry);
             ivMealImage = itemView.findViewById(R.id.ivMealImage);
+        }
+
+        public void bindData(Meal meal) {
+            tvMealName.setText(meal.getStrMeal());
+            tvCountry.setText(meal.getStrArea());
+            Glide.with(ivMealImage.getContext()).load(meal.getStrMealThumb()).into(ivMealImage);
         }
     }
 }
