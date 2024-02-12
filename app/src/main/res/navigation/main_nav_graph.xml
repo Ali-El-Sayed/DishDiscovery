@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/categoryFragment">
+
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.example.dishdiscovery.home.view.HomeFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_categoryFragment_to_searchFragment2"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_ingredientFragment"
+            app:destination="@id/ingredientFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.dishdiscovery.favorite.view.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.dishdiscovery.search.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/mealDetailsFragment"
+        android:name="com.example.dishdiscovery.mealDetails.view.MealDetailsFragment"
+        android:label="@string/meal_details"
+        tools:layout="@layout/fragment_meal_details">
+        <argument
+            android:name="mealId"
+            android:defaultValue="52858"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ingredientFragment"
+        android:name="com.example.dishdiscovery.mealDetails.ingredients.view.IngredientFragment"
+        android:label="@string/ingredients"
+        tools:layout="@layout/fragment_ingredient">
+        <argument
+            android:name="ingredients"
+            android:defaultValue="52858"
+            app:argType="string" />
+    </fragment>
+</navigation>

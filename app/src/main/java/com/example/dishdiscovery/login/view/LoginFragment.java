@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.login.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,11 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.dishdiscovery.HomeScreenActivity;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.databinding.FragmentLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
-import com.example.dishdiscovery.repository.Repository;
+import com.example.dishdiscovery.repository.authRepo.AuthRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -41,7 +43,7 @@ public class LoginFragment extends Fragment implements ILogin {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
 
     }
 
@@ -55,7 +57,7 @@ public class LoginFragment extends Fragment implements ILogin {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUi();
-        presenter = new LoginPresenter(this, Repository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
 
     }
 
@@ -146,7 +148,8 @@ public class LoginFragment extends Fragment implements ILogin {
         FirebaseUser user = task.getResult().getUser();
         Log.i(TAG, "Login onComplete: user id: " + user.getUid());
         Toast.makeText(getContext(), "Authentication success.", Toast.LENGTH_SHORT).show();
-
+        startActivity(new Intent(getActivity(), HomeScreenActivity.class));
+        getActivity().finish();
     }
 
     @Override

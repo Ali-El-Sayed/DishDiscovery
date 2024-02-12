@@ -1,20 +1,20 @@
-package com.example.dishdiscovery.repository;
+package com.example.dishdiscovery.repository.authRepo;
 
 import com.example.dishdiscovery.authDataSource.authEmailPassword.IAuthEmailPassword;
 import com.example.dishdiscovery.login.presenter.OnLoginComplete;
 import com.example.dishdiscovery.register.presenter.OnRegisterComplete;
 
-public class Repository implements IMealsRepo {
+public class AuthRepository implements IAuthRepo {
     private final IAuthEmailPassword  _iAuthEmailPassword;
-    private static Repository _instance;
+    private static AuthRepository _instance;
 
-    private Repository(IAuthEmailPassword iAuthEmailPassword) {
+    private AuthRepository(IAuthEmailPassword iAuthEmailPassword) {
         _iAuthEmailPassword = iAuthEmailPassword;
     }
 
-    public static synchronized Repository getInstance(IAuthEmailPassword iAuthEmailPassword) {
+    public static synchronized AuthRepository getInstance(IAuthEmailPassword iAuthEmailPassword) {
         if (_instance == null) {
-            _instance = new Repository(iAuthEmailPassword);
+            _instance = new AuthRepository(iAuthEmailPassword);
         }
         return _instance;
     }

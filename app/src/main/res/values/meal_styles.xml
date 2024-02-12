@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="meal_of_the_day" parent="">
+        <item name="cornerSize" >20dp</item>
+    </style>
+    <style name="meal_detail_img" parent="">
+        <item name="cornerSizeBottomLeft" >20dp</item>
+        <item name="cornerSizeBottomRight" >20dp</item>
+    </style>
+
+</resources>
