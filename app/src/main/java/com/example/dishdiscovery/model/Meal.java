@@ -4,6 +4,8 @@ package com.example.dishdiscovery.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Meal {
 
     @SerializedName("idMeal")
@@ -165,6 +167,10 @@ public class Meal {
     @SerializedName("dateModified")
     @Expose
     private Object dateModified;
+
+    private List<String> ingredients;
+
+    private List<String> measurements;
 
     public String getIdMeal() {
         return idMeal;
@@ -588,6 +594,22 @@ public class Meal {
 
     public void setDateModified(Object dateModified) {
         this.dateModified = dateModified;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<String> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(List<String> measurements) {
+        this.measurements = measurements;
     }
 
 }
