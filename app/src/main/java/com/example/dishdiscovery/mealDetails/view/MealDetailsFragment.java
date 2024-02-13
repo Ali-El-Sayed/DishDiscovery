@@ -83,6 +83,12 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
