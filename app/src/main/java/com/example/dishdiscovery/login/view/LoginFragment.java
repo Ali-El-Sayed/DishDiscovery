@@ -8,22 +8,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.dishdiscovery.HomeScreenActivity;
+import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.databinding.FragmentLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
 import com.example.dishdiscovery.repository.authRepo.AuthRepository;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,19 +34,19 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginFragment extends Fragment implements ILogin {
     private static final String TAG = "LoginFragment";
     private FragmentLoginBinding binding;
-    TextInputEditText textInputEditTextEmail;
-    TextInputLayout textInputLayoutEmail;
-    TextInputLayout textInputLayoutPassword;
-    TextInputEditText textInputEditTextPassword;
-    Button btnSignInWithGoogle;
-    Button btnLoginWithEmail;
 
     ILoginPresenter presenter;
+    ActivityResultLauncher<Intent> signInLauncher;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(
+                FirebaseAuthentication.getInstance(getActivity()),
+                FirebaseAuthentication.getInstance(getActivity())));
+
+        signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.loginWithGoogle(result));
 
     }
 
@@ -57,15 +60,11 @@ public class LoginFragment extends Fragment implements ILogin {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUi();
-        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
-
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity())));
     }
 
     private void initUi() {
-        textInputEditTextEmail = binding.etEmail;
-        textInputLayoutEmail = binding.etEmailLayout;
-        // email change listener
-        textInputEditTextEmail.addTextChangedListener(new TextWatcher() {
+        binding.etEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -73,14 +72,14 @@ public class LoginFragment extends Fragment implements ILogin {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().isEmpty()) {
-                    textInputLayoutEmail.setErrorEnabled(true);
-                    textInputLayoutEmail.setError("Email is required");
+                    binding.etEmailLayout.setErrorEnabled(true);
+                    binding.etEmailLayout.setError("Email is required");
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-                    textInputLayoutEmail.setErrorEnabled(true);
-                    textInputLayoutEmail.setError("Invalid email");
+                    binding.etEmailLayout.setErrorEnabled(true);
+                    binding.etEmailLayout.setError("Invalid email");
                 } else {
-                    textInputLayoutEmail.setErrorEnabled(false);
-                    textInputLayoutEmail.setError(null);
+                    binding.etEmailLayout.setErrorEnabled(false);
+                    binding.etEmailLayout.setError(null);
                 }
             }
 
@@ -88,10 +87,7 @@ public class LoginFragment extends Fragment implements ILogin {
             public void afterTextChanged(Editable s) {
             }
         });
-        textInputEditTextPassword = binding.etPassword;
-        textInputLayoutPassword = binding.etPasswordLayout;
-        // password change listener
-        textInputEditTextPassword.addTextChangedListener(new TextWatcher() {
+        binding.etPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -105,41 +101,48 @@ public class LoginFragment extends Fragment implements ILogin {
             public void afterTextChanged(Editable s) {
             }
         });
-        btnSignInWithGoogle = binding.btnSignInWithGoogle;
-        btnLoginWithEmail = binding.btnLoginWithEmail;
 
         // sign in with google button click listener
-        btnLoginWithEmail.setOnClickListener(v -> {
-            String email = textInputEditTextEmail.getText().toString(), password = textInputEditTextPassword.getText().toString();
+        binding.btnLoginWithEmail.setOnClickListener(v -> {
+            String email = binding.etEmail.getText().toString(), password = binding.etPassword.getText().toString();
             presenter.loginWithEmail(email, password);
+        });
+
+        binding.btnSignInWithGoogle.setOnClickListener(v -> {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+            mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+            mGoogleSignInClient.revokeAccess();
+            Intent intent = mGoogleSignInClient.getSignInIntent();
+            signInLauncher.launch(intent);
         });
     }
 
+
     private void passwordValidation(CharSequence s) {
         if (s.length() < 6) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must be at least 6 characters");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must be at least 6 characters");
         } else if (s.length() > 20) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must be at most 20 characters");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must be at most 20 characters");
         } else if (s.toString().contains(" ")) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must not contain spaces");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must not contain spaces");
         } else if (!s.toString().matches(".*\\d.*")) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must contain at least one digit");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must contain at least one digit");
         } else if (!s.toString().matches(".*[a-z].*")) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must contain at least one lowercase letter");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must contain at least one lowercase letter");
         } else if (!s.toString().matches(".*[A-Z].*")) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must contain at least one uppercase letter");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must contain at least one uppercase letter");
         } else if (!s.toString().matches(".*[!@#$%^&*].*")) {
-            textInputLayoutPassword.setErrorEnabled(true);
-            textInputLayoutPassword.setError("Password must contain at least one special character");
+            binding.etPasswordLayout.setErrorEnabled(true);
+            binding.etPasswordLayout.setError("Password must contain at least one special character");
         } else {
-            textInputLayoutPassword.setErrorEnabled(false);
-            textInputLayoutPassword.setError(null);
+            binding.etPasswordLayout.setErrorEnabled(false);
+            binding.etPasswordLayout.setError(null);
         }
     }
 
@@ -156,5 +159,6 @@ public class LoginFragment extends Fragment implements ILogin {
     public void onLoginFailure(Exception e) {
         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
     }
+
 
 }
