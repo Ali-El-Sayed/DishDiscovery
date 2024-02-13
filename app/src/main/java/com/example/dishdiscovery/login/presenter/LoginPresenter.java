@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.login.presenter;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 
 import com.example.dishdiscovery.login.view.ILogin;
@@ -20,6 +21,12 @@ public class LoginPresenter implements ILoginPresenter, OnLoginComplete {
     public void loginWithEmail(String email, String password) {
         repo.logInEmailPassword(this, email, password);
     }
+
+    @Override
+    public void loginWithGoogle(ActivityResult result) {
+        repo.logInGoogle(this, result);
+    }
+
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {

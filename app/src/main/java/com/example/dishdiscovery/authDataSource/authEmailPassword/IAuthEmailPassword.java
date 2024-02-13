@@ -8,4 +8,6 @@ public interface IAuthEmailPassword {
     void loginWithEmail(OnLoginComplete onLoginComplete, String email, String password);
     void registerWithEmail(OnRegisterComplete onRegisterComplete, String email, String password);
 
+
+
 }

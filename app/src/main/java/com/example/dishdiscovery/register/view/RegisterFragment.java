@@ -10,16 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.dishdiscovery.HomeScreenActivity;
+import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.databinding.FragmentRegisterBinding;
 import com.example.dishdiscovery.register.presenter.IRegisterPresenter;
 import com.example.dishdiscovery.register.presenter.RegisterPresenter;
 import com.example.dishdiscovery.repository.authRepo.AuthRepository;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,11 +41,17 @@ public class RegisterFragment extends Fragment implements IRegister {
     Button btnSignInWithGoogle;
     Button btnRegisterWithEmail;
     private IRegisterPresenter registerPresenter;
+    ActivityResultLauncher<Intent> signInLauncher;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerPresenter = new RegisterPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity())));
+        registerPresenter = new RegisterPresenter(this,
+                AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()),
+                        FirebaseAuthentication.getInstance(getActivity())));
+        signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> registerPresenter.loginWithGoogle(result));
+
 
     }
 
@@ -98,9 +110,16 @@ public class RegisterFragment extends Fragment implements IRegister {
         });
 
 
-        // sign in with google button click listener
         btnRegisterWithEmail.setOnClickListener(v -> {
             registerPresenter.registerWithEmail(textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString());
+        });
+
+        binding.btnSignInWithGoogle.setOnClickListener(v -> {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+            mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+            mGoogleSignInClient.revokeAccess();
+            Intent intent = mGoogleSignInClient.getSignInIntent();
+            signInLauncher.launch(intent);
         });
     }
 

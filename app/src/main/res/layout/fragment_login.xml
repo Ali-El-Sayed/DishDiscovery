@@ -42,7 +42,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/e_mail"
                 android:inputType="textEmailAddress"
-                android:text="aliloka@gmail.com"
+                android:text="@string/fixed_email"
                 android:textColor="@color/btn_txt_color"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -69,7 +69,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:text="Alielsayed@22"
+                android:text="@string/fixed_password"
                 android:textColor="@color/btn_txt_color"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
