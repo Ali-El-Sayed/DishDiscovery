@@ -68,5 +68,8 @@
             android:name="categoryId"
             android:defaultValue="1"
             app:argType="string" />
+        <action
+            android:id="@+id/action_allMealsFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
     </fragment>
 </navigation>

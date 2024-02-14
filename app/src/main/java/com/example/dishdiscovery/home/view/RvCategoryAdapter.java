@@ -47,7 +47,7 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.itemView.setOnClickListener(v -> _onCardItemClick.onMealOfTheDayClick(meal.getIdMeal()));
         } else {
             ((CategoryViewHolder) holder).bindData(categories.get(position - 1));
-            holder.itemView.setOnClickListener(v -> _onCardItemClick.onCategoryClick(categories.get(position - 1).getIdCategory()));
+            holder.itemView.setOnClickListener(v -> _onCardItemClick.onCategoryClick(categories.get(position - 1).getStrCategory()));
         }
     }
 

@@ -16,11 +16,13 @@ import com.example.dishdiscovery.model.FilteredMeal;
 import java.util.List;
 
 public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMealsViewHolder> {
-    List<FilteredMeal> allMeals;
+    private final List<FilteredMeal> allMeals;
+   private final OnMealClickListener _onMealClickListener;
 
 
-    public AllMealsAdapter(List<FilteredMeal> allMeals) {
+    public AllMealsAdapter(List<FilteredMeal> allMeals, OnMealClickListener onMealClickListener) {
         this.allMeals = allMeals;
+        _onMealClickListener = onMealClickListener;
     }
 
     @NonNull
@@ -34,6 +36,7 @@ public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMea
     @Override
     public void onBindViewHolder(@NonNull AllMealsAdapter.AllMealsViewHolder holder, int position) {
         holder.bind(allMeals.get(position));
+        holder.itemView.setOnClickListener(v -> _onMealClickListener.onMealClick(allMeals.get(position).getIdMeal()));
     }
 
     @Override
