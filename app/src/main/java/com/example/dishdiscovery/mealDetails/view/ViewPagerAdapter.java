@@ -1,4 +1,4 @@
-package com.example.dishdiscovery.mealDetails;
+package com.example.dishdiscovery.mealDetails.view;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

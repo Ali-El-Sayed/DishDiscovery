@@ -46,6 +46,7 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     // Gson
     implementation 'com.google.code.gson:gson:2.10.1'
     // Glide
@@ -57,7 +58,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    //Splash Screen
+    // Splash Screen
     implementation "androidx.core:core-splashscreen:1.0.1"
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
@@ -66,12 +67,14 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:20.6.0"
     // ViewPagers 2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-
     // Youtube Player
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
     // Youtube Player UI
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:12.1.0'
+    // Rx Java
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
 
 
     testImplementation 'junit:junit:4.13.2'

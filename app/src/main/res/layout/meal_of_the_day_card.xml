@@ -26,16 +26,16 @@
             android:background="@color/meal_of_the_day_shadow">
 
             <TextView
-                android:background="#050000"
                 android:id="@+id/meal_of_the_day"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="#050000"
                 android:fontFamily="@font/roboto_medium_italic"
                 android:paddingVertical="4dp"
                 android:text="@string/meal_of_the_day"
                 android:textAlignment="center"
-                android:textSize="20dp"
                 android:textColor="@color/card_text_color"
+                android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/meal_of_the_day" />
 
             <TextView
-                android:id="@+id/tvCountry"
+                android:id="@+id/tvMealArea"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"

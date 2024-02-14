@@ -44,14 +44,10 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
             ((MealOfTheDayViewHolder) holder).bindData(meal);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _onCardItemClick.onMealOfTheDayClick(meal.getIdMeal());
-                }
-            });
+            holder.itemView.setOnClickListener(v -> _onCardItemClick.onMealOfTheDayClick(meal.getIdMeal()));
         } else {
             ((CategoryViewHolder) holder).bindData(categories.get(position - 1));
+            holder.itemView.setOnClickListener(v -> _onCardItemClick.onCategoryClick(categories.get(position - 1).getStrCategory()));
         }
     }
 
@@ -103,7 +99,7 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public MealOfTheDayViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMealName = itemView.findViewById(R.id.tvMealName);
-            tvCountry = itemView.findViewById(R.id.tvCountry);
+            tvCountry = itemView.findViewById(R.id.tvMealArea);
             ivMealImage = itemView.findViewById(R.id.ivMealImage);
         }
 

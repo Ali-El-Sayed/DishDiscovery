@@ -14,12 +14,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
-import com.example.dishdiscovery.mealDetails.ViewPagerAdapter;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.util.CONSTANTS;
 import com.google.android.material.tabs.TabLayout;
 
 public class MealDetailsFragment extends Fragment implements IMealDetails {
@@ -48,8 +48,13 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
-        String mealId = (String) getArguments().get("mealId");
+        String mealId = (String) getArguments().get(CONSTANTS.MEAL_ID);
         _presenter.getMealById(mealId);
+        initUI();
+
+    }
+
+    private void initUI() {
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Ingredients"));
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Instructions"));
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Video"));
@@ -79,7 +84,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
             }
         });
-
     }
 
     @Override
