@@ -2,6 +2,7 @@ package com.example.dishdiscovery.network.Api;
 
 import android.util.Log;
 
+import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.model.Category;
@@ -10,8 +11,12 @@ import com.example.dishdiscovery.network.data.MealResponse;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
@@ -20,7 +25,10 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     private static MealRemoteDataSourceImpl instance;
 
     private MealRemoteDataSourceImpl() {
-        Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(END_POINTS.BASE_URL).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .baseUrl(END_POINTS.BASE_URL).build();
         mealsService = retrofit.create(MealsService.class);
     }
 
@@ -87,5 +95,16 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
                 mealNetworkCall.onError(t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void getMealsByCategoryName(String categoryId, IFilterMealsNetworkCallBack iFilterMealsNetworkCallBack) {
+        Disposable subscribe = mealsService.getMealsByCategoryName(categoryId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        allMeals -> iFilterMealsNetworkCallBack.onSuccess(allMeals.getMeals()),
+                        throwable -> iFilterMealsNetworkCallBack.onFailure(throwable.getMessage())
+                );
     }
 }

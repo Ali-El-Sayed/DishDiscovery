@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_ingredientFragment"
             app:destination="@id/ingredientFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_allMealsFragment"
+            app:destination="@id/allMealsFragment" />
 
     </fragment>
     <fragment
@@ -54,6 +57,16 @@
         <argument
             android:name="ingredients"
             android:defaultValue="52858"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/allMealsFragment"
+        android:name="com.example.dishdiscovery.AllMeals.view.AllMealsFragment"
+        android:label="Meals"
+        tools:layout="@layout/fragment_all_meals">
+        <argument
+            android:name="categoryId"
+            android:defaultValue="1"
             app:argType="string" />
     </fragment>
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.repository.RemoteRepo;
 
+import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.network.Api.IMealRemoteDataSource;
@@ -33,5 +34,10 @@ public class MealsRepo implements IMealsRepo {
     @Override
     public void getMealById(String mealId, IMealNetworkCall mealNetworkCall) {
         _remoteDataSource.getMealById(mealId, mealNetworkCall);
+    }
+
+    @Override
+    public void getAllMealsByCategory(String category, IFilterMealsNetworkCallBack allMealsNetworkCallBack) {
+        _remoteDataSource.getMealsByCategoryName(category, allMealsNetworkCallBack);
     }
 }

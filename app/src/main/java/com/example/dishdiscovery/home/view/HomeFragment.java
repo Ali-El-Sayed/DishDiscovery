@@ -20,6 +20,7 @@ import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.util.CONSTANTS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,12 +78,14 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     @Override
     public void onMealOfTheDayClick(String id) {
         Bundle bundle = new Bundle();
-        bundle.putString("mealId", id);
+        bundle.putString(CONSTANTS.MEAL_ID, id);
         Navigation.findNavController(requireView()).navigate(R.id.action_categoryFragment_to_mealDetailsFragment, bundle);
     }
 
     @Override
-    public void onCategoryClick(int id) {
-
+    public void onCategoryClick(String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString(CONSTANTS.CATEGORY_NAME, name);
+        Navigation.findNavController(requireView()).navigate(R.id.action_categoryFragment_to_allMealsFragment, bundle);
     }
 }
