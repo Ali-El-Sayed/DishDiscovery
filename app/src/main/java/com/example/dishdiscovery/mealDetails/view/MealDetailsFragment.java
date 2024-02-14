@@ -40,9 +40,8 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _presenter = new MealDetailsImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
-
-
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -101,20 +100,20 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putString("mealId", (String) getArguments().get("mealId"));
-        outState.putString("mealName", _binding.tvMealDetailsName.getText().toString());
-        outState.putString("mealArea", _binding.tvMealDetailsArea.getText().toString());
-        outState.putString("mealCategory", _binding.tvMealDetailsCategory.getText().toString());
+        outState.putString(CONSTANTS.MEAL_ID, (String) getArguments().get("mealId"));
+        outState.putString(CONSTANTS.CATEGORY_NAME, _binding.tvMealDetailsName.getText().toString());
+        outState.putString(CONSTANTS.MEAL_AREA, _binding.tvMealDetailsArea.getText().toString());
+        outState.putString(CONSTANTS.MEAL_CATEGORY, _binding.tvMealDetailsCategory.getText().toString());
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            _binding.tvMealDetailsName.setText(savedInstanceState.getString("mealName"));
-            _binding.tvMealDetailsArea.setText(savedInstanceState.getString("mealArea"));
-            _binding.tvMealDetailsCategory.setText(savedInstanceState.getString("mealCategory"));
+            _binding.tvMealDetailsName.setText(savedInstanceState.getString(CONSTANTS.CATEGORY_NAME));
+            _binding.tvMealDetailsArea.setText(savedInstanceState.getString(CONSTANTS.MEAL_AREA));
+            _binding.tvMealDetailsCategory.setText(savedInstanceState.getString(CONSTANTS.MEAL_CATEGORY));
+            _presenter.getMealById(savedInstanceState.getString(CONSTANTS.MEAL_ID));
         }
     }
 
