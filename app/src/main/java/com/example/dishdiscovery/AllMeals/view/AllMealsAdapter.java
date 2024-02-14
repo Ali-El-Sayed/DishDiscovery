@@ -58,7 +58,7 @@ public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMea
 
         void bind(FilteredMeal filterResponse) {
             mealName.setText(filterResponse.getStrMeal());
-            Glide.with(itemView.getContext()).load(filterResponse.getStrMealThumb()).into(mealImage);
+            Glide.with(itemView.getContext()).load(filterResponse.getStrMealThumb()+"/preview").into(mealImage);
         }
     }
 }
