@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@color/meal_of_the_day_shadow"
+            android:background="@drawable/text_background_shape"
             android:fontFamily="@font/roboto_bold"
             android:paddingVertical="8dp"
             android:text="Pan Cake"

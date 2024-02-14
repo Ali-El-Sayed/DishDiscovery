@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        app:lottie_rawRes="@raw/splash" />
+        app:lottie_rawRes="@raw/splash_animation" />
 
     <TextView
         android:layout_width="match_parent"

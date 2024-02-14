@@ -64,6 +64,14 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        binding.homeScreenLottie.setVisibility(View.VISIBLE); 
+        presenter.getCategories();
+        presenter.getRandomMeal();
+    }
+
+    @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
@@ -72,8 +80,9 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     public void showMealOfTheDay(Meal meal) {
         this.meal = meal;
         adapter.setMeal(meal);
-    }
+        binding.homeScreenLottie.setVisibility(View.GONE);
 
+    }
 
     @Override
     public void onMealOfTheDayClick(String id) {

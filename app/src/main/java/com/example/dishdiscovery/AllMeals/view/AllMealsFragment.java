@@ -62,10 +62,24 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CONSTANTS.CATEGORY_NAME, getArguments().getString(CONSTANTS.CATEGORY_NAME));
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            String category = savedInstanceState.getString(CONSTANTS.CATEGORY_NAME);
+            _presenter.getAllMealsByCategory(category);
+        }
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
-
     }
 
     @Override
