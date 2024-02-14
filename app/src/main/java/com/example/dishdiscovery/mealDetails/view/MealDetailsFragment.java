@@ -83,6 +83,12 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.VISIBLE);
@@ -112,9 +118,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void showMealDetails(Meal meal) {
         this.meal = meal;
         _adapter = new ViewPagerAdapter(getChildFragmentManager(), getLifecycle());
+        _binding.tabLayout.getTabAt(0).setText("Ingredients (" + meal.getIngredients().size() + ")");
         _adapter.setMeal(meal);
         _binding.viewPager.setAdapter(_adapter);
-        _binding.tvMealDetailsName.setText("Name : " + meal.getStrMeal());
+        _binding.tvMealDetailsName.setText(meal.getStrMeal());
         _binding.tvMealDetailsArea.setText("Area : " + meal.getStrArea());
         _binding.tvMealDetailsCategory.setText("Category : " + meal.getStrCategory());
         Glide.with(getContext()).load(meal.getStrMealThumb()).into(_binding.ivMealDetails);

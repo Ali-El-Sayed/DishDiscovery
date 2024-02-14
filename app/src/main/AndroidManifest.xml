@@ -29,6 +29,7 @@
             android:name=".splash.SplashScreen"
             android:exported="true">
 
+
         </activity>
     </application>
 

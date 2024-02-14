@@ -8,22 +8,31 @@
     android:orientation="vertical"
     tools:context=".mealDetails.view.MealDetailsFragment">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivMealDetails"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#898764"
-        android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/meal_detail_img" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvMealDetailsName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Pan Cake"
-        android:textSize="22sp" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMealDetails"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="#898764"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/meal_detail_img" />
+
+        <TextView
+            android:id="@+id/tvMealDetailsName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/meal_of_the_day_shadow"
+            android:fontFamily="@font/roboto_bold"
+            android:paddingVertical="8dp"
+            android:text="Pan Cake"
+            android:textAlignment="center"
+            android:textColor="@color/card_text_color"
+            android:textSize="20sp" />
+    </FrameLayout>
 
 
     <TextView
@@ -31,6 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="8dp"
+
         android:fontFamily="@font/roboto_regular"
         android:text="@string/category_dessert"
         android:textSize="20sp" />
@@ -40,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/area_egypt"
         android:textSize="20sp" />

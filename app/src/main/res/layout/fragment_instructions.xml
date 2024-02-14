@@ -9,7 +9,7 @@
         android:id="@+id/tvInstructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp"
+        android:padding="20dp"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/lorem_ipsum" />
 
