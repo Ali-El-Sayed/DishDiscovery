@@ -52,8 +52,6 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
         binding.rvHome.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         adapter = new RvCategoryAdapter(this, meal, categories);
         binding.rvHome.setAdapter(adapter);
-        presenter.getCategories();
-        presenter.getRandomMeal();
     }
 
 

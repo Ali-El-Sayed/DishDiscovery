@@ -8,9 +8,10 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.databinding.FragmentSearchBinding;
 
 public class SearchFragment extends Fragment {
-
+    FragmentSearchBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

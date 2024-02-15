@@ -73,8 +73,7 @@
                 android:textColor="@color/btn_txt_color"
                 android:textSize="20sp" />
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Login with email button-->
-        <!--Sing in with Google button -->
+
         <Button
             android:id="@+id/btnLoginWithEmail"
             android:layout_width="match_parent"
