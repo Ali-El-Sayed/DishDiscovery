@@ -157,7 +157,9 @@ public class LoginFragment extends Fragment implements ILogin {
 
     @Override
     public void onLoginFailure(Exception e) {
+
         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "onLoginFailure:  " + e.getMessage());
     }
 
 

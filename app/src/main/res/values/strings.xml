@@ -66,4 +66,5 @@
     <string name="fixed_password">Alielsayed@22</string>
     <string name="fixed_email">alielsayed@gmail.com</string>
     <string name="open_source">Open Source</string>
+    <string name="searchbar_hint">Search....</string>
 </resources>

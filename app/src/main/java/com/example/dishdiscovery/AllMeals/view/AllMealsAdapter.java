@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMealsViewHolder> {
     private final List<FilteredMeal> allMeals;
-   private final OnMealClickListener _onMealClickListener;
+    private final OnMealClickListener _onMealClickListener;
 
 
     public AllMealsAdapter(List<FilteredMeal> allMeals, OnMealClickListener onMealClickListener) {
@@ -29,7 +29,6 @@ public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMea
     @Override
     public AllMealsAdapter.AllMealsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.meal_of_the_day_card, parent, false);
-
         return new AllMealsViewHolder(v);
     }
 
@@ -58,7 +57,7 @@ public class AllMealsAdapter extends RecyclerView.Adapter<AllMealsAdapter.AllMea
 
         void bind(FilteredMeal filterResponse) {
             mealName.setText(filterResponse.getStrMeal());
-            Glide.with(itemView.getContext()).load(filterResponse.getStrMealThumb()+"/preview").into(mealImage);
+            Glide.with(itemView.getContext()).load(filterResponse.getStrMealThumb() + "/preview").into(mealImage);
         }
     }
 }

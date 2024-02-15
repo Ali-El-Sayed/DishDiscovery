@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".mealDetails.instructions.InstructionsFragment">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvInstructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.dishdiscovery.AllMeals.presenter.AllMealsPresenterImpl;
@@ -52,7 +51,7 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
 
 
     void initUI() {
-        binding.rvAllMeals.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+        binding.rvAllMeals.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     @Override
@@ -85,6 +84,7 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     @Override
     public void displayAllMeals(List<FilteredMeal> allMeals) {
         binding.rvAllMeals.setAdapter(new AllMealsAdapter(allMeals, this));
+        binding.homeScreenLottie.setVisibility(View.GONE);
     }
 
     @Override

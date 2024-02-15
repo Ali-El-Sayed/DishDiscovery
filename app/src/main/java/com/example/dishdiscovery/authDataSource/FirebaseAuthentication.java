@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,15 +64,25 @@ public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
     }
 
     private Task<AuthResult> handleLGoogleAuth(Task<GoogleSignInAccount> signInTask) {
-        GoogleSignInAccount account = null;
-        try {
-            account = signInTask.getResult(ApiException.class);
-        } catch (ApiException e) {
-            throw new RuntimeException(e);
+        if (signInTask.isSuccessful()) {
+            GoogleSignInAccount account = signInTask.getResult();
+            if (account != null) {
+                AuthCredential googleCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                return _firebaseAuth.signInWithCredential(googleCredential);
+            } else {
+                // Handle case where GoogleSignInAccount is null
+                // Maybe log an error message or return a failed task
+                return Tasks.forException(new Exception("GoogleSignInAccount is null"));
+            }
+        } else {
+            // Handle case where signInTask is not successful
+            // Maybe log an error message or return a failed task
+            Exception exception = signInTask.getException();
+            if (exception != null) {
+                exception.printStackTrace();
+            }
+            return Tasks.forException(new Exception("Google Sign-In failed"));
         }
-        AuthCredential googleCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        Task<AuthResult> authResultTask = _firebaseAuth.signInWithCredential(googleCredential);
-        return authResultTask;
 
     }
 }

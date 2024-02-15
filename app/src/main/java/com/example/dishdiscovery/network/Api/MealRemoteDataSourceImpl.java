@@ -9,11 +9,16 @@ import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.network.data.CategoryResponse;
 import com.example.dishdiscovery.network.data.MealResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -25,9 +30,15 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     private static MealRemoteDataSourceImpl instance;
 
     private MealRemoteDataSourceImpl() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new LoggingInterceptor()) // Add the interceptor here
+                .build();
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .client(okHttpClient)
                 .baseUrl(END_POINTS.BASE_URL).build();
         mealsService = retrofit.create(MealsService.class);
     }
@@ -98,13 +109,28 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     }
 
     @Override
-    public void getMealsByCategoryName(String categoryId, IFilterMealsNetworkCallBack iFilterMealsNetworkCallBack) {
-        Disposable subscribe = mealsService.getMealsByCategoryName(categoryId)
+    public void getMealsByCategoryName(String categoryName, IFilterMealsNetworkCallBack iFilterMealsNetworkCallBack) {
+        Disposable subscribe = mealsService.getMealsByCategoryName(categoryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         allMeals -> iFilterMealsNetworkCallBack.onSuccess(allMeals.getMeals()),
                         throwable -> iFilterMealsNetworkCallBack.onFailure(throwable.getMessage())
                 );
+    }
+
+    private class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Response response = chain.proceed(chain.request());
+
+            Log.i(TAG, "Response: " + response.body().string());
+
+            String url = request.url().toString();
+            // Log the URL here
+            Log.i(TAG, "Request URL: " + url);
+            return chain.proceed(chain.request());
+        }
     }
 }
