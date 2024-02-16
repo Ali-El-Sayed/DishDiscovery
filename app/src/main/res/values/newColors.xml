@@ -1,8 +1,11 @@
-
 <resources>
     <color name="seed">#1ECBE1</color>
     <color name="md_theme_light_primary">#006875</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <!--Status Bar Color-->
+    <color name="md_theme_light_primaryDark">#3CB6B6B6</color>
+    <color name="md_theme_dark_primaryDark">#191C1D</color>
+    <!--    -->
     <color name="md_theme_light_primaryContainer">#9AF0FF</color>
     <color name="md_theme_light_onPrimaryContainer">#001F24</color>
     <color name="md_theme_light_secondary">#0059C8</color>

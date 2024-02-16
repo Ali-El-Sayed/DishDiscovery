@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,14 +13,21 @@
         app:spanCount="2"
         tools:listitem="@layout/meal_of_the_day_card" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/home_screen_lottie"
+    <FrameLayout
+        android:id="@+id/home_screen_lottie_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/btn_background"
-        android:visibility="visible"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading_animation"
-        app:lottie_scale="0.5" />
+        android:background="@color/btn_background">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/home_screen_lottie"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_animation"
+            app:lottie_scale="0.5" />
+    </FrameLayout>
 </FrameLayout>

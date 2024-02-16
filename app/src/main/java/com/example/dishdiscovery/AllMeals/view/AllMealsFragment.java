@@ -58,6 +58,9 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onResume() {
         super.onResume();
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
+        binding.homeScreenLottieContainer.setVisibility(View.VISIBLE);
+        binding.homeScreenLottie.animate();
+        binding.homeScreenLottie.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -84,7 +87,9 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     @Override
     public void displayAllMeals(List<FilteredMeal> allMeals) {
         binding.rvAllMeals.setAdapter(new AllMealsAdapter(allMeals, this));
+        binding.homeScreenLottie.cancelAnimation();
         binding.homeScreenLottie.setVisibility(View.GONE);
+        binding.homeScreenLottieContainer.setVisibility(View.GONE);
     }
 
     @Override

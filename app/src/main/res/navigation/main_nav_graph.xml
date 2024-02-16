@@ -37,7 +37,11 @@
         android:id="@+id/searchFragment"
         android:name="com.example.dishdiscovery.search.view.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mealDetailsFragment"
         android:name="com.example.dishdiscovery.mealDetails.view.MealDetailsFragment"

@@ -8,8 +8,10 @@ import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.network.data.CategoryResponse;
 import com.example.dishdiscovery.network.data.MealResponse;
+import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -109,12 +111,29 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     }
 
     @Override
+    public void searchMealByName(String mealName, ISearchNetworkCallBack searchNetworkCallBack) {
+        Disposable subscribe = mealsService.searchMealByName(mealName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealResponse -> searchNetworkCallBack.onSearchResults(mealResponse.getMeals()),
+                        throwable -> searchNetworkCallBack.onSearchError(throwable.getMessage())
+                );
+    }
+
+    @Override
     public void getMealsByCategoryName(String categoryName, IFilterMealsNetworkCallBack iFilterMealsNetworkCallBack) {
         Disposable subscribe = mealsService.getMealsByCategoryName(categoryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        allMeals -> iFilterMealsNetworkCallBack.onSuccess(allMeals.getMeals()),
+                        allMeals -> {
+                            if (allMeals.getMeals() == null) {
+                                iFilterMealsNetworkCallBack.onSuccess(new ArrayList<>());
+
+                            } else
+                                iFilterMealsNetworkCallBack.onSuccess(allMeals.getMeals());
+                        },
                         throwable -> iFilterMealsNetworkCallBack.onFailure(throwable.getMessage())
                 );
     }
