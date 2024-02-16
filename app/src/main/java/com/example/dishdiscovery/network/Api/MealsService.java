@@ -22,4 +22,7 @@ public interface MealsService {
 
     @GET(END_POINTS.FILTER)
     Observable<FilterResponse> getMealsByCategoryName(@Query("c") String categoryName);
+
+    @GET(END_POINTS.SEARCH_BY_NAME)
+    Observable<MealResponse> searchMealByName(@Query("s") String mealName);
 }
