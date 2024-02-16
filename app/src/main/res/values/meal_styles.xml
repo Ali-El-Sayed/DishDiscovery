@@ -2,11 +2,13 @@
 <resources>
 
     <style name="meal_of_the_day" parent="">
-        <item name="cornerSize" >20dp</item>
+        <item name="cornerSize">20dp</item>
     </style>
+
     <style name="meal_detail_img" parent="">
-        <item name="cornerSizeBottomLeft" >20dp</item>
-        <item name="cornerSizeBottomRight" >20dp</item>
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
     </style>
+
 
 </resources>

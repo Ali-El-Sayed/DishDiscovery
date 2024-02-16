@@ -1,14 +1,11 @@
 <resources>
 
     <style name="Base.Theme.DishDiscovery" parent="Theme.Material3.DayNight.NoActionBar">
-<!--        <item name="android:windowIsTranslucent">true</item>-->
-        <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <!--        <item name="android:fitsSystemWindows">false</item>-->
-        <!--        <item name="android:windowBackground">@android:color/</item>-->
         <!--            -->
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
-        <item name="colorPrimaryDark" >@color/md_theme_light_primaryDark</item>
+        <item name="colorPrimaryDark">@color/md_theme_light_primaryDark</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
         <item name="colorSecondary">@color/md_theme_light_secondary</item>
@@ -36,4 +33,11 @@
     </style>
 
     <style name="Theme.DishDiscovery" parent="Base.Theme.DishDiscovery" />
+
+    <style name="Theme.DishDiscovery.Splash" parent="Base.Theme.DishDiscovery">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+    </style>
+
 </resources>

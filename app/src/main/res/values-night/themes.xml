@@ -1,9 +1,8 @@
 <resources>
 
     <style name="Theme.DishDiscovery" parent="Theme.Material3.DayNight.NoActionBar">
-        <!--            <item name="android:windowIsTranslucent">true</item>-->
-        <!--            <item name="android:windowTranslucentStatus">true</item>-->
 
+        <!--        <item name="android:windowIsTranslucent">true</item>-->
         <!--        -->
         <item name="colorPrimary">@color/md_theme_dark_primary</item>`
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
@@ -34,4 +33,10 @@
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
     </style>
 
+    <style name="Theme.DishDiscovery.Splash" parent="Base.Theme.DishDiscovery">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        
+    </style>
 </resources>

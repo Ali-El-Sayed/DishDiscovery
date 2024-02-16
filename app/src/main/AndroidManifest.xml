@@ -10,16 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DishDiscovery"
+        android:theme="@style/Theme.DishDiscovery.Splash"
         tools:targetApi="31">
         <activity
             android:name=".HomeScreenActivity"
+            android:theme="@style/Theme.DishDiscovery"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -27,8 +24,11 @@
         <activity
             android:name=".splash.SplashScreen"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
