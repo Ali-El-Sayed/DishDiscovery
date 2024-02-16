@@ -3,6 +3,6 @@
     <color name="btn_txt_color">#1f1f1f</color>
     <color name="btn_ripple_color">#D8D7D7</color>
     <color name="error_color">#FF3636</color>
-    <color name="card_text_color">#EFEFEF</color>
-    <color name="meal_of_the_day_shadow">#59455260</color>
+    <color name="card_text_color">#E8E8E8</color>
+    <color name="meal_of_the_day_shadow">#43313232</color>
 </resources>

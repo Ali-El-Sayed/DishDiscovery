@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -42,9 +43,7 @@ public class LoginFragment extends Fragment implements ILogin {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter(this, AuthRepository.getInstance(
-                FirebaseAuthentication.getInstance(getActivity()),
-                FirebaseAuthentication.getInstance(getActivity())));
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity())));
 
         signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.loginWithGoogle(result));
 
@@ -157,7 +156,6 @@ public class LoginFragment extends Fragment implements ILogin {
 
     @Override
     public void onLoginFailure(Exception e) {
-
         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "onLoginFailure:  " + e.getMessage());
     }
