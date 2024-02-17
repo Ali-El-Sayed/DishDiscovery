@@ -1,11 +1,14 @@
 package com.example.dishdiscovery.weeklyMeals.view;
 
-import com.example.dishdiscovery.model.UserWeeklyMeals;
+import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
+
+import java.util.List;
 
 public interface IWeeklyMealsView {
-    void showWeeklyMeals(UserWeeklyMeals userWeeklyMeals);
+    void showWeeklyMeals(List<LocalWeeklyMeal> userWeeklyMeals);
 
     void showError(String error);
 
+    void onSavedSuccess();
 
 }

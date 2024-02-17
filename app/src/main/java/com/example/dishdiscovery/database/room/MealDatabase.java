@@ -7,10 +7,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
-import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.model.UserWeeklyMeals;
 
-@Database(entities = { LocalWeeklyMeal.class}, version = 1, exportSchema = false)
+@Database(entities = {LocalWeeklyMeal.class}, version = 1, exportSchema = false)
 public abstract class MealDatabase extends RoomDatabase {
     public abstract MealsDao mealsDao();
 
@@ -24,6 +22,8 @@ public abstract class MealDatabase extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .build();
         }
+
+
         return _instance;
     }
 

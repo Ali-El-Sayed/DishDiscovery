@@ -16,12 +16,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.room.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
+import com.example.dishdiscovery.repository.LocalRepo.MealLocalRepoImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 import com.google.android.material.datepicker.CalendarConstraints;
@@ -49,7 +51,8 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _presenter = new MealDetailsImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
+        _presenter = new MealDetailsImpl(
+                this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), MealLocalRepoImpl.getInstance(MealsLocalDatasourceImpl.getInstance(getActivity(),SharedPreferencesImpl.getInstance(getActivity().getApplicationContext()))));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
     }
@@ -119,7 +122,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
                     Log.i(TAG, "initUI: " + dayName);
                     Log.i(TAG, "initUI: " +new Meal( meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
                     _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

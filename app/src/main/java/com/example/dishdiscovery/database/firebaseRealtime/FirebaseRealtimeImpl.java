@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Completable;
 
-public class FirebaseRealtimeImpl implements IFirebaseRealtime {
+public class FirebaseRealtimeImpl implements IFirebaseRealtimeDataSource {
     private static final String TAG = "FirebaseRealtimeImpl";
     private static FirebaseRealtimeImpl _instance;
 
@@ -29,7 +29,7 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtime {
         _database = FirebaseDatabase.getInstance();
     }
 
-    public static synchronized IFirebaseRealtime getInstance() {
+    public static synchronized IFirebaseRealtimeDataSource getInstance() {
         if (_instance == null) _instance = new FirebaseRealtimeImpl();
 
         return _instance;

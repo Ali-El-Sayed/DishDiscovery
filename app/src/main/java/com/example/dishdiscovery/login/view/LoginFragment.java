@@ -20,6 +20,7 @@ import com.example.dishdiscovery.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.room.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
@@ -94,6 +95,7 @@ public class LoginFragment extends Fragment implements ILogin {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 passwordValidation(s);
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -149,6 +151,7 @@ public class LoginFragment extends Fragment implements ILogin {
         FirebaseRealtimeImpl.getInstance().verifyUserFavoriteMealsCreated(user.getUid());
 
         presenter.saveUserId(user.getUid());
+
 
         Log.i(TAG, "Login onComplete: user id: " + user.getUid());
         Toast.makeText(getContext(), "Authentication success.", Toast.LENGTH_SHORT).show();

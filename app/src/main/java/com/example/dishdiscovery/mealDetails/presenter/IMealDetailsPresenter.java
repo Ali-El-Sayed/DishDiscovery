@@ -6,4 +6,5 @@ public interface IMealDetailsPresenter {
     void getMealById(String mealId);
 
     void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal);
+
 }

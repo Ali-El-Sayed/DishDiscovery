@@ -1,7 +1,7 @@
 package com.example.dishdiscovery.repository.RemoteRepo;
 
 import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
-import com.example.dishdiscovery.database.firebaseRealtime.IFirebaseRealtime;
+import com.example.dishdiscovery.database.firebaseRealtime.IFirebaseRealtimeDataSource;
 import com.example.dishdiscovery.database.sharedPreferences.ISharedPreferences;
 import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
@@ -19,16 +19,16 @@ public class MealsRemoteRepo implements IMealsRemoteRepo {
 
     private static IMealsRemoteRepo _instance;
     private final IMealRemoteDataSource _remoteDataSource;
-    private final IFirebaseRealtime _firebaseRealtime;
+    private final IFirebaseRealtimeDataSource _firebaseRealtime;
     private final ISharedPreferences _sharedPreferences;
 
-    MealsRemoteRepo(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
+    MealsRemoteRepo(IMealRemoteDataSource remoteDataSource, IFirebaseRealtimeDataSource firebaseRealtime, ISharedPreferences sharedPreferences) {
         _remoteDataSource = remoteDataSource;
         _firebaseRealtime = firebaseRealtime;
         _sharedPreferences = sharedPreferences;
     }
 
-    public static synchronized IMealsRemoteRepo getInstance(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
+    public static synchronized IMealsRemoteRepo getInstance(IMealRemoteDataSource remoteDataSource, IFirebaseRealtimeDataSource firebaseRealtime, ISharedPreferences sharedPreferences) {
         if (_instance == null)
             _instance = new MealsRemoteRepo(remoteDataSource, firebaseRealtime, sharedPreferences);
 

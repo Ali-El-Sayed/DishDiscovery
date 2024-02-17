@@ -2,18 +2,21 @@ package com.example.dishdiscovery.weeklyMeals.presenter;
 
 import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
 import com.example.dishdiscovery.model.UserWeeklyMeals;
+import com.example.dishdiscovery.repository.LocalRepo.IMealLocalRepo;
 import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 import com.example.dishdiscovery.weeklyMeals.view.IWeeklyMealsView;
 
 import java.util.List;
 
-public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetworkCall, OnWeeklyMealsLoaded {
+public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetworkCall, OnLocalWeeklyMeals {
     private final IWeeklyMealsView _view;
-    private final IMealsRemoteRepo _repo;
+    private final IMealsRemoteRepo _remoteRepo;
+    private final IMealLocalRepo _localRepo;
 
-    public WeeklyMealImpl(IWeeklyMealsView view, IMealsRemoteRepo repo) {
+    public WeeklyMealImpl(IWeeklyMealsView view, IMealsRemoteRepo repo, IMealLocalRepo localRepo) {
         this._view = view;
-        this._repo = repo;
+        this._remoteRepo = repo;
+        _localRepo = localRepo;
     }
 
     @Override
@@ -22,22 +25,33 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetwor
     }
 
     @Override
-    public void onSuccess(UserWeeklyMeals meal) {
-        _view.showWeeklyMeals(meal);
+    public void saveUserWeeklyMeal(LocalWeeklyMeal localWeeklyMeal) {
+        _localRepo.saveUserWeeklyMeals(localWeeklyMeal);
     }
 
     @Override
-    public void onError(String error) {
+    public void onRemoteSuccess(UserWeeklyMeals meal) {
+//        _view.showWeeklyMeals(meal);
+    }
+
+    @Override
+    public void onRemoteError(String error) {
         _view.showError(error);
     }
 
+
     @Override
-    public void onWeeklyMealsLoaded(List<LocalWeeklyMeal> meals) {
-//        _view.showWeeklyMeals(meals);
+    public void onLoadingSuccess(List<LocalWeeklyMeal> meals) {
+        _view.showWeeklyMeals(meals);
     }
 
     @Override
-    public void onWeeklyMealsLoadFailed(String message) {
+    public void onLoadingError(String message) {
+        _view.showError(message);
+    }
 
+    @Override
+    public void onSaveSuccess() {
+        _view.onSavedSuccess();
     }
 }

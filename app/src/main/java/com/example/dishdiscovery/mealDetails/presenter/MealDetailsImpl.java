@@ -2,9 +2,11 @@ package com.example.dishdiscovery.mealDetails.presenter;
 
 import android.util.Pair;
 
+import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.view.IMealDetails;
 import com.example.dishdiscovery.model.Meal;
+import com.example.dishdiscovery.repository.LocalRepo.IMealLocalRepo;
 import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 import com.example.dishdiscovery.util.MealParser;
 
@@ -13,21 +15,24 @@ import java.util.List;
 public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, onSaveUserWeeklyMealsCallBack {
 
     private final IMealDetails _view;
-    private final IMealsRemoteRepo _repo;
+    private final IMealsRemoteRepo _remoteRepo;
+    private final IMealLocalRepo _localRepo;
 
-    public MealDetailsImpl(IMealDetails view, IMealsRemoteRepo repo) {
+    public MealDetailsImpl(IMealDetails view, IMealsRemoteRepo repo, IMealLocalRepo localRepo) {
         this._view = view;
-        this._repo = repo;
+        this._remoteRepo = repo;
+        _localRepo = localRepo;
     }
 
     @Override
     public void getMealById(String mealId) {
-        _repo.getMealById(mealId, this);
+        _remoteRepo.getMealById(mealId, this);
     }
 
     @Override
     public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal) {
-        _repo.saveUserWeeklyMeals(dayOfTheWeek, meal, this);
+        _remoteRepo.saveUserWeeklyMeals(dayOfTheWeek, meal, this);
+        _localRepo.saveUserWeeklyMeals(new LocalWeeklyMeal(dayOfTheWeek, meal));
     }
 
     @Override
