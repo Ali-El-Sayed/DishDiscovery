@@ -31,6 +31,11 @@ public class RegisterPresenter implements IRegisterPresenter, OnRegisterComplete
     }
 
     @Override
+    public void saveUserId(String userId) {
+        repo.saveUserId(userId);
+    }
+
+    @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
             view.onRegisterSuccess(task);

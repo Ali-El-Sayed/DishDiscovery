@@ -14,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
@@ -84,5 +83,11 @@ public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
             return Tasks.forException(new Exception("Google Sign-In failed"));
         }
 
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        instance = null;
     }
 }

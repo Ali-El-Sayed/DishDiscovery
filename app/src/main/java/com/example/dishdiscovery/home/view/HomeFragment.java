@@ -13,6 +13,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentHomeBinding;
 import com.example.dishdiscovery.home.presenter.HomePresenter;
 import com.example.dishdiscovery.home.presenter.IHomePresenter;
@@ -37,7 +39,7 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        presenter = new HomePresenter(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

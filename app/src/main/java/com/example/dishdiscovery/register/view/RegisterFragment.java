@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.dishdiscovery.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentRegisterBinding;
 import com.example.dishdiscovery.register.presenter.IRegisterPresenter;
 import com.example.dishdiscovery.register.presenter.RegisterPresenter;
@@ -30,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterFragment extends Fragment implements IRegister {
     private static final String TAG = "Register";
@@ -47,9 +49,7 @@ public class RegisterFragment extends Fragment implements IRegister {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        registerPresenter = new RegisterPresenter(this,
-                AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()),
-                        FirebaseAuthentication.getInstance(getActivity())));
+        registerPresenter = new RegisterPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity()), SharedPreferencesImpl.getInstance(getActivity())));
         signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> registerPresenter.loginWithGoogle(result));
 
 
@@ -168,6 +168,10 @@ public class RegisterFragment extends Fragment implements IRegister {
 
     @Override
     public void onRegisterSuccess(Task<AuthResult> task) {
+        FirebaseUser user = task.getResult().getUser();
+
+        registerPresenter.saveUserId(user.getUid());
+
         Toast.makeText(getActivity(), "Registration success.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getActivity(), HomeScreenActivity.class));
         getActivity().finish();

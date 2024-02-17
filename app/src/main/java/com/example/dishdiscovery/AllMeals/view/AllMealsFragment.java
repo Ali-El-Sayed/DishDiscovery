@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.dishdiscovery.AllMeals.presenter.AllMealsPresenterImpl;
 import com.example.dishdiscovery.AllMeals.presenter.IAllMealsPresenter;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentAllMealsBinding;
 import com.example.dishdiscovery.model.FilteredMeal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
@@ -31,7 +33,7 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _presenter = new AllMealsPresenterImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        _presenter = new AllMealsPresenterImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

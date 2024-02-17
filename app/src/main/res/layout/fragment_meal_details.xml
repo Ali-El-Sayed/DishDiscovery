@@ -1,81 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".mealDetails.view.MealDetailsFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivMealDetails"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="#898764"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/meal_detail_img" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivMealDetails"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:background="#898764"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/meal_detail_img" />
 
-        <TextView
-            android:id="@+id/tvMealDetailsName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/text_background_shape"
-            android:fontFamily="@font/roboto_bold"
-            android:paddingVertical="8dp"
-            android:text="Pan Cake"
-            android:textAlignment="center"
-            android:textColor="@color/card_text_color"
-            android:textSize="20sp" />
-    </FrameLayout>
+    <TextView
+        android:id="@+id/tvMealDetailsName"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_background_shape"
+        android:fontFamily="@font/roboto_bold"
+        android:paddingVertical="8dp"
+        android:text="Pan Cake"
+        android:textAlignment="center"
+        android:textColor="@color/card_text_color"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="43dp"
+        tools:layout_conversion_absoluteWidth="411dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 
     <TextView
         android:id="@+id/tvMealDetailsCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/category_dessert"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivMealDetails" />
 
     <TextView
         android:id="@+id/tvMealDetailsArea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/area_egypt"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/tvMealDetailsCategory"
+        app:layout_constraintTop_toBottomOf="@id/tvMealDetailsCategory" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/icon_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivMealDetails"
+        app:tint="@color/seed" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAddCalender"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/icon_add_calender"
+        app:layout_constraintEnd_toStartOf="@id/ivFavorite"
+        app:layout_constraintTop_toBottomOf="@+id/ivMealDetails"
+        app:tint="@color/seed" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="22dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMealDetailsArea">
 
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/view_pager_bkg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/tab_layout_shape"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,4 +118,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

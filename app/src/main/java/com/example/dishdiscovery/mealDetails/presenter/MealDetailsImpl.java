@@ -10,7 +10,7 @@ import com.example.dishdiscovery.util.MealParser;
 
 import java.util.List;
 
-public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall {
+public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, onSaveUserWeeklyMealsCallBack {
 
     private final IMealDetails _view;
     private final IMealsRepo _repo;
@@ -26,6 +26,11 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall 
     }
 
     @Override
+    public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal) {
+        _repo.saveUserWeeklyMeals(dayOfTheWeek, meal,this);
+    }
+
+    @Override
     public void onSuccess(Meal meal) {
         Pair<List<String>, List<String>> ingredientsAndMeasurements = MealParser.parseMeal(meal);
         meal.setIngredients(ingredientsAndMeasurements.first);
@@ -36,5 +41,15 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall 
     @Override
     public void onError(String error) {
         _view.showError(error);
+    }
+
+    @Override
+    public void onSaveUserWeeklyMealsSuccess() {
+        _view.onSaveUserWeeklyMealsSuccess();
+    }
+
+    @Override
+    public void onSaveUserWeeklyMealsError(String error) {
+        _view.onSaveUserWeeklyMealsError(error);
     }
 }

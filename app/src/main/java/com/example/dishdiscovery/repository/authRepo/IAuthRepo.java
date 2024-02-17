@@ -12,4 +12,10 @@ public interface IAuthRepo {
 
     void logInGoogle(OnLoginComplete onLoginComplete, ActivityResult result);
 
+    void logOut();
+
+    String getUserId();
+
+    void saveUserId(String userId);
+
 }

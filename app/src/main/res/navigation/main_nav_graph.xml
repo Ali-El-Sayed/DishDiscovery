@@ -76,4 +76,13 @@
             android:id="@+id/action_allMealsFragment_to_mealDetailsFragment"
             app:destination="@id/mealDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/weeklyMealsFragment"
+        android:name="com.example.dishdiscovery.weeklyMeals.view.WeeklyMealsFragment"
+        android:label="fragment_weekly_meals"
+        tools:layout="@layout/fragment_weekly_meals" >
+        <action
+            android:id="@+id/action_weeklyMealsFragment_to_mealDetailsFragment"
+            app:destination="@id/mealDetailsFragment" />
+    </fragment>
 </navigation>

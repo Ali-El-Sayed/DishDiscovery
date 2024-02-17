@@ -27,6 +27,11 @@ public class LoginPresenter implements ILoginPresenter, OnLoginComplete {
         repo.logInGoogle(this, result);
     }
 
+    @Override
+    public void saveUserId(String userId) {
+        repo.saveUserId(userId);
+    }
+
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {

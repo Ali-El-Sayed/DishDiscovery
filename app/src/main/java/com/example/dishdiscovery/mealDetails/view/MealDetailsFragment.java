@@ -1,6 +1,7 @@
 package com.example.dishdiscovery.mealDetails.view;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
@@ -20,7 +23,14 @@ import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.tabs.TabLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MealDetailsFragment extends Fragment implements IMealDetails {
 
@@ -37,7 +47,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _presenter = new MealDetailsImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        _presenter = new MealDetailsImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
     }
@@ -58,6 +68,62 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Instructions"));
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Video"));
         _binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        _binding.ivFavorite.setOnClickListener(v -> {
+
+
+        });
+        _binding.ivAddCalender.setOnClickListener(v -> {
+            long today = MaterialDatePicker.todayInUtcMilliseconds();
+
+            long start = today;
+            long end = today + TimeUnit.DAYS.toMillis(6); // 7 days later
+
+            CalendarConstraints.DateValidator dateValidator = new CalendarConstraints.DateValidator() {
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+                }
+
+                @Override
+                public boolean isValid(long date) {
+                    // Only allow dates within the next 7 days
+                    return !(date < start || date > end);
+                }
+            };
+
+            CalendarConstraints constraints = new CalendarConstraints.Builder().setValidator(dateValidator).build();
+
+            MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+            builder.setTitleText("Select a date");
+            builder.setCalendarConstraints(constraints);
+
+            final MaterialDatePicker<Long> materialDatePicker = builder.build();
+
+            materialDatePicker.show(getChildFragmentManager(), "DATE_PICKER");
+
+            materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+                String selectedDate = materialDatePicker.getHeaderText();
+                try {
+                    SimpleDateFormat inFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+                    Date date = inFormat.parse(selectedDate);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+                    String dayName = outFormat.format(date);
+
+                    _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.getIdMeal(), meal.getStrMeal(), meal.getStrCategory(), meal.getStrArea(), meal.getStrMealThumb()));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+
+        });
 
 
         _binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -134,5 +200,16 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onSaveUserWeeklyMealsSuccess() {
+        Toast.makeText(getContext(), "Meal added to your weekly meals", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveUserWeeklyMealsError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

@@ -5,4 +5,7 @@ import com.example.dishdiscovery.model.Meal;
 public interface IMealDetails {
     void showMealDetails(Meal meal);
     void showError(String error);
+
+    void onSaveUserWeeklyMealsSuccess();
+    void onSaveUserWeeklyMealsError(String error);
 }

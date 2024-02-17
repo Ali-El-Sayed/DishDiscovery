@@ -8,6 +8,24 @@ import java.util.List;
 
 public class Meal {
 
+
+    public Meal() {
+        this.idMeal = "";
+        this.strMeal = "";
+        this.strCategory = "";
+        this.strArea = "";
+        this.strMealThumb = "";
+
+    }
+
+    public Meal(String idMeal, String strMeal, String strCategory, String strArea, String strMealThumb) {
+        this.idMeal = idMeal;
+        this.strMeal = strMeal;
+        this.strCategory = strCategory;
+        this.strArea = strArea;
+        this.strMealThumb = strMealThumb;
+    }
+
     @SerializedName("idMeal")
     @Expose
     private String idMeal;
