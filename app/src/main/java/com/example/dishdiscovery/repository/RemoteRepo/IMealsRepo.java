@@ -7,6 +7,7 @@ import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
+import com.example.dishdiscovery.weeklyMeals.presenter.IWeeklyMealsNetworkCall;
 
 public interface IMealsRepo {
     void getCategories(ICategoriesNetworkCall categoriesNetworkCall);

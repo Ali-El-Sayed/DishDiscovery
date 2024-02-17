@@ -2,6 +2,7 @@ package com.example.dishdiscovery.mealDetails.view;
 
 import android.os.Bundle;
 import android.os.Parcel;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MealDetailsFragment extends Fragment implements IMealDetails {
 
+    private static final String TAG = "MealDetailsFragment";
     private FragmentMealDetailsBinding _binding;
     private IMealDetailsPresenter _presenter;
     private ViewPagerAdapter _adapter;
@@ -109,12 +111,14 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
             materialDatePicker.addOnPositiveButtonClickListener(selection -> {
                 String selectedDate = materialDatePicker.getHeaderText();
                 try {
-                    SimpleDateFormat inFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+                    SimpleDateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
                     Date date = inFormat.parse(selectedDate);
                     SimpleDateFormat outFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                     String dayName = outFormat.format(date);
 
-                    _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.getIdMeal(), meal.getStrMeal(), meal.getStrCategory(), meal.getStrArea(), meal.getStrMealThumb()));
+                    Log.i(TAG, "initUI: " + dayName);
+                    Log.i(TAG, "initUI: " +new Meal( meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
+                    _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -190,10 +194,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tabLayout.getTabAt(0).setText("Ingredients (" + meal.getIngredients().size() + ")");
         _adapter.setMeal(meal);
         _binding.viewPager.setAdapter(_adapter);
-        _binding.tvMealDetailsName.setText(meal.getStrMeal());
-        _binding.tvMealDetailsArea.setText("Area : " + meal.getStrArea());
-        _binding.tvMealDetailsCategory.setText("Category : " + meal.getStrCategory());
-        Glide.with(getContext()).load(meal.getStrMealThumb()).into(_binding.ivMealDetails);
+        _binding.tvMealDetailsName.setText(meal.strMeal);
+        _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
+        _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
+        Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
     }
 
     @Override

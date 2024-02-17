@@ -9,6 +9,7 @@ import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.network.data.CategoryResponse;
 import com.example.dishdiscovery.network.data.MealResponse;
 import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
+import com.example.dishdiscovery.weeklyMeals.view.IWeeklyMealsView;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.dishdiscovery.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentRegisterBinding;
 import com.example.dishdiscovery.register.presenter.IRegisterPresenter;
@@ -169,6 +170,8 @@ public class RegisterFragment extends Fragment implements IRegister {
     @Override
     public void onRegisterSuccess(Task<AuthResult> task) {
         FirebaseUser user = task.getResult().getUser();
+
+        FirebaseRealtimeImpl.getInstance().verifyUserFavoriteMealsCreated(user.getUid());
 
         registerPresenter.saveUserId(user.getUid());
 

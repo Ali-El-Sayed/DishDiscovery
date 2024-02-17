@@ -27,7 +27,7 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
 
     @Override
     public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal) {
-        _repo.saveUserWeeklyMeals(dayOfTheWeek, meal,this);
+        _repo.saveUserWeeklyMeals(dayOfTheWeek, meal, this);
     }
 
     @Override

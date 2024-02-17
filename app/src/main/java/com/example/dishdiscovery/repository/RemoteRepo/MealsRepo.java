@@ -11,6 +11,10 @@ import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.IMealRemoteDataSource;
 import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MealsRepo implements IMealsRepo {
 
     private static IMealsRepo _instance;
@@ -46,6 +50,7 @@ public class MealsRepo implements IMealsRepo {
         _remoteDataSource.getMealById(mealId, mealNetworkCall);
     }
 
+
     @Override
     public void searchMealByName(String mealName, ISearchNetworkCallBack searchNetworkCallBack) {
         _remoteDataSource.searchMealByName(mealName, searchNetworkCallBack);
@@ -63,6 +68,12 @@ public class MealsRepo implements IMealsRepo {
 
     @Override
     public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack) {
-        _firebaseRealtime.saveUserWeeklyMeals(_sharedPreferences.getUserId(), dayOfTheWeek, meal, callBack);
+        Disposable subscribe = _firebaseRealtime.saveUserWeeklyMeals(_sharedPreferences.getUserId(), dayOfTheWeek, meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        callBack::onSaveUserWeeklyMealsSuccess,
+                        error -> callBack.onSaveUserWeeklyMealsError(error.getMessage())
+                );
     }
 }

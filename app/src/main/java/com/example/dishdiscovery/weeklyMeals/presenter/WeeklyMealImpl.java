@@ -1,14 +1,10 @@
 package com.example.dishdiscovery.weeklyMeals.presenter;
 
-import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
-import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserWeeklyMeals;
 import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
 import com.example.dishdiscovery.weeklyMeals.view.IWeeklyMealsView;
 
-import java.util.List;
-
-public class WeeklyMealImpl implements IWeeklyMealsPresenter, IMealNetworkCall,OnWeeklyMealsLoaded {
+public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetworkCall, OnWeeklyMealsLoaded {
     private final IWeeklyMealsView _view;
     private final IMealsRepo _repo;
 
@@ -19,12 +15,12 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IMealNetworkCall,O
 
     @Override
     public void getUserWeeklyMeal(String mealId) {
-        _repo.getMealById(mealId, this);
+//        _repo.getWeeklyMealById(mealId, this);
     }
 
     @Override
-    public void onSuccess(Meal meal) {
-//        _view.showWeeklyMeals(meal);
+    public void onSuccess(UserWeeklyMeals meal) {
+        _view.showWeeklyMeals(meal);
     }
 
     @Override
@@ -32,9 +28,8 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IMealNetworkCall,O
         _view.showError(error);
     }
 
-
     @Override
-    public void onWeeklyMealsLoaded(List<UserWeeklyMeals> meals) {
+    public void onWeeklyMealsLoaded(UserWeeklyMeals meals) {
         _view.showWeeklyMeals(meals);
     }
 

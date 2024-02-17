@@ -14,8 +14,6 @@ import com.example.dishdiscovery.databinding.FragmentWeeklyMealsBinding;
 import com.example.dishdiscovery.model.UserWeeklyMeals;
 import com.example.dishdiscovery.util.CONSTANTS;
 
-import java.util.List;
-
 public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickListener, IWeeklyMealsView {
 
     FragmentWeeklyMealsBinding _binding;
@@ -44,7 +42,7 @@ public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickLi
 
 
     @Override
-    public void showWeeklyMeals(List<UserWeeklyMeals> userWeeklyMeals) {
+    public void showWeeklyMeals(UserWeeklyMeals userWeeklyMeals) {
 
     }
 

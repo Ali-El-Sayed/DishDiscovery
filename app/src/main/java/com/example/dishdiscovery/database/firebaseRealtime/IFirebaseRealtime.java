@@ -4,9 +4,11 @@ import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
 import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
 import com.example.dishdiscovery.model.Meal;
 
+import io.reactivex.rxjava3.core.Completable;
+
 public interface IFirebaseRealtime {
 
-    void saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack);
+    Completable saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal);
 
     void getUserWeeklyMeals(String userId);
 

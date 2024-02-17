@@ -6,9 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserWeeklyMeals;
 
-@Database(entities = {UserWeeklyMeals.class}, version = 1, exportSchema = false)
+@Database(entities = {UserWeeklyMeals.class, Meal.class}, version = 1, exportSchema = false)
 public abstract class MealDatabase extends RoomDatabase {
     public abstract MealsDao mealsDao();
 

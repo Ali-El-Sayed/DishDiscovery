@@ -4,11 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.dishdiscovery.database.firebaseRealtime.model.RemoteUserWeeklyMeals;
 import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
-import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserFavMeals;
-import com.example.dishdiscovery.model.UserWeeklyMeals;
 import com.example.dishdiscovery.util.CONSTANTS;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import io.reactivex.rxjava3.core.Completable;
 
 public class FirebaseRealtimeImpl implements IFirebaseRealtime {
     private static final String TAG = "FirebaseRealtimeImpl";
@@ -35,16 +36,38 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtime {
     }
 
     @Override
-    public void saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack) {
-        _database.getReference(CONSTANTS.USERS_REALTIME_DB)
-                .child(userId)
-                .child(CONSTANTS.WEEKLY_MEALS_REALTIME_DB)
-                .child("_" + dayOfWeek.toLowerCase())
-                .setValue(meal).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) callBack.onSaveUserWeeklyMealsSuccess();
-                    else callBack.onSaveUserWeeklyMealsError(task.getException().getMessage());
-                });
+    public void saveUserFavoriteMeals(String userId, String mealId) {
+        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).child(CONSTANTS.FAVMEALS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren())
+                    if (dataSnapshot.getValue().equals(mealId)) return;
+
+
+                _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(CONSTANTS.FAVORITES_REALTIME_DB).child(userId).child(CONSTANTS.FAVMEALS).child(snapshot.getChildrenCount() + "").setValue(mealId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "onCancelled: " + error.getMessage());
+            }
+        });
     }
+
+    @Override
+    public Completable saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal) {
+        Log.i(TAG, "saveUserWeeklyMeals: " + meal);
+        return Completable.create(emitter -> {
+            _database.getReference(CONSTANTS.USERS_REALTIME_DB)
+                    .child(userId)
+                    .child(CONSTANTS.WEEKLY_MEALS_REALTIME_DB)
+                    .child("_" + dayOfWeek.toLowerCase()).setValue(meal).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) emitter.onComplete();
+                        else emitter.onError(task.getException());
+                    });
+        });
+    }
+
 
     @Override
     public void getUserWeeklyMeals(String userId) {
@@ -76,41 +99,17 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtime {
                 Log.e(TAG, "onCancelled: " + error.getMessage());
             }
         });
+
     }
 
     private void createUserFavoriteMeals(String userId) {
         _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).setValue(new UserFavMeals(userId, new ArrayList<>()));
-
-        _database.getReference("users").child("favorites").child(userId).setValue(new UserFavMeals());
     }
 
     private void createUserWeeklyMeals(String userId) {
-        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.WEEKLY_MEALS_REALTIME_DB).setValue(new UserWeeklyMeals(userId));
-
-        _database.getReference("users").child("weeklyMeals").child(userId).setValue(new UserFavMeals());
+        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.WEEKLY_MEALS_REALTIME_DB).setValue(new RemoteUserWeeklyMeals(userId));
     }
 
-
-    @Override
-    public void saveUserFavoriteMeals(String userId, String mealId) {
-        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).child(CONSTANTS.FAVMEALS).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren())
-                    if (dataSnapshot.getValue().equals(mealId)) return;
-
-
-                _database.getReference(CONSTANTS.USERS_REALTIME_DB)
-                        .child(CONSTANTS.FAVORITES_REALTIME_DB)
-                        .child(userId).child(CONSTANTS.FAVMEALS).child(snapshot.getChildrenCount() + "").setValue(mealId);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "onCancelled: " + error.getMessage());
-            }
-        });
-    }
 
     @Override
     public void deleteUserFavoriteMeals(String userId, String mealId) {

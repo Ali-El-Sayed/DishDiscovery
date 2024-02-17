@@ -38,7 +38,7 @@ public class InstructionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        _binding.tvInstructions.setText(_meal.getStrInstructions());
+        _binding.tvInstructions.setText(_meal.strInstructions);
 
     }
 }
