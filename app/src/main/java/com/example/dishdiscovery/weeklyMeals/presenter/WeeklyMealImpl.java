@@ -1,14 +1,17 @@
 package com.example.dishdiscovery.weeklyMeals.presenter;
 
+import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
 import com.example.dishdiscovery.model.UserWeeklyMeals;
-import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 import com.example.dishdiscovery.weeklyMeals.view.IWeeklyMealsView;
+
+import java.util.List;
 
 public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetworkCall, OnWeeklyMealsLoaded {
     private final IWeeklyMealsView _view;
-    private final IMealsRepo _repo;
+    private final IMealsRemoteRepo _repo;
 
-    public WeeklyMealImpl(IWeeklyMealsView view, IMealsRepo repo) {
+    public WeeklyMealImpl(IWeeklyMealsView view, IMealsRemoteRepo repo) {
         this._view = view;
         this._repo = repo;
     }
@@ -29,8 +32,8 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetwor
     }
 
     @Override
-    public void onWeeklyMealsLoaded(UserWeeklyMeals meals) {
-        _view.showWeeklyMeals(meals);
+    public void onWeeklyMealsLoaded(List<LocalWeeklyMeal> meals) {
+//        _view.showWeeklyMeals(meals);
     }
 
     @Override

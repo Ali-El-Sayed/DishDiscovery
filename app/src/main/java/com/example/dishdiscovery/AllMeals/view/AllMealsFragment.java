@@ -20,7 +20,7 @@ import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImp
 import com.example.dishdiscovery.databinding.FragmentAllMealsBinding;
 import com.example.dishdiscovery.model.FilteredMeal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _presenter = new AllMealsPresenterImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
+        _presenter = new AllMealsPresenterImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

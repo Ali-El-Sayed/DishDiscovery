@@ -15,22 +15,22 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MealsRepo implements IMealsRepo {
+public class MealsRemoteRepo implements IMealsRemoteRepo {
 
-    private static IMealsRepo _instance;
+    private static IMealsRemoteRepo _instance;
     private final IMealRemoteDataSource _remoteDataSource;
     private final IFirebaseRealtime _firebaseRealtime;
     private final ISharedPreferences _sharedPreferences;
 
-    MealsRepo(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
+    MealsRemoteRepo(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
         _remoteDataSource = remoteDataSource;
         _firebaseRealtime = firebaseRealtime;
         _sharedPreferences = sharedPreferences;
     }
 
-    public static synchronized IMealsRepo getInstance(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
+    public static synchronized IMealsRemoteRepo getInstance(IMealRemoteDataSource remoteDataSource, IFirebaseRealtime firebaseRealtime, ISharedPreferences sharedPreferences) {
         if (_instance == null)
-            _instance = new MealsRepo(remoteDataSource, firebaseRealtime, sharedPreferences);
+            _instance = new MealsRemoteRepo(remoteDataSource, firebaseRealtime, sharedPreferences);
 
         return _instance;
     }

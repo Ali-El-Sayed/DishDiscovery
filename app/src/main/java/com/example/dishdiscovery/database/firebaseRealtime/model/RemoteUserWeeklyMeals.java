@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey;
 import com.example.dishdiscovery.model.Meal;
 
 public class RemoteUserWeeklyMeals {
-
     @PrimaryKey
     public String userId;
     public Meal _saturday;

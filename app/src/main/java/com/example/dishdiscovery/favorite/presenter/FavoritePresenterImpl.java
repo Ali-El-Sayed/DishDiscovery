@@ -2,21 +2,21 @@ package com.example.dishdiscovery.favorite.presenter;
 
 import com.example.dishdiscovery.favorite.view.IFavoriteView;
 import com.example.dishdiscovery.model.UserFavMeals;
-import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 
 public class FavoritePresenterImpl implements IFavoritePresenter, OnFavNetworkCallBack {
 
     private final IFavoriteView iFavoriteView;
-    private final IMealsRepo iMealsRepo;
+    private final IMealsRemoteRepo mIMealsRemoteRepo;
 
-    public FavoritePresenterImpl(IFavoriteView iFavoriteView, IMealsRepo iMealsRepo) {
+    public FavoritePresenterImpl(IFavoriteView iFavoriteView, IMealsRemoteRepo iMealsRemoteRepo) {
         this.iFavoriteView = iFavoriteView;
-        this.iMealsRepo = iMealsRepo;
+        this.mIMealsRemoteRepo = iMealsRemoteRepo;
     }
 
     @Override
     public void getFavoriteMeals() {
-        iMealsRepo.getFavoriteMeals(this);
+        mIMealsRemoteRepo.getFavoriteMeals(this);
     }
 
     @Override

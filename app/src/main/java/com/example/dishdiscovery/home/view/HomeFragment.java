@@ -21,7 +21,7 @@ import com.example.dishdiscovery.home.presenter.IHomePresenter;
 import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
+        presenter = new HomePresenter(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

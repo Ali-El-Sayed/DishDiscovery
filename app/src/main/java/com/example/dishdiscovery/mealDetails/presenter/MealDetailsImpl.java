@@ -5,7 +5,7 @@ import android.util.Pair;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.view.IMealDetails;
 import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 import com.example.dishdiscovery.util.MealParser;
 
 import java.util.List;
@@ -13,9 +13,9 @@ import java.util.List;
 public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, onSaveUserWeeklyMealsCallBack {
 
     private final IMealDetails _view;
-    private final IMealsRepo _repo;
+    private final IMealsRemoteRepo _repo;
 
-    public MealDetailsImpl(IMealDetails view, IMealsRepo repo) {
+    public MealDetailsImpl(IMealDetails view, IMealsRemoteRepo repo) {
         this._view = view;
         this._repo = repo;
     }

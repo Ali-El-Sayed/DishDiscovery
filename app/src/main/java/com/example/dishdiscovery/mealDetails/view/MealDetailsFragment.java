@@ -22,7 +22,7 @@ import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -49,7 +49,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _presenter = new MealDetailsImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
+        _presenter = new MealDetailsImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
     }

@@ -2,17 +2,15 @@ package com.example.dishdiscovery.AllMeals.presenter;
 
 import com.example.dishdiscovery.AllMeals.view.IAllMealsView;
 import com.example.dishdiscovery.model.FilteredMeal;
-import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.network.data.FilterResponse;
-import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 
 import java.util.List;
 
 public class AllMealsPresenterImpl implements IFilterMealsNetworkCallBack, IAllMealsPresenter {
     private final IAllMealsView _view;
-    private final IMealsRepo _mealsRepo;
+    private final IMealsRemoteRepo _mealsRepo;
 
-    public AllMealsPresenterImpl(IAllMealsView view, IMealsRepo mealsRepo) {
+    public AllMealsPresenterImpl(IAllMealsView view, IMealsRemoteRepo mealsRepo) {
         _view = view;
         _mealsRepo = mealsRepo;
     }

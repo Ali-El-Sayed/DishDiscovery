@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
-import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.weeklyMeals.model.WeeklyMeal;
+import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
 
 import java.util.List;
 
 public class WeeklyMealsAdapter extends RecyclerView.Adapter<WeeklyMealsAdapter.ViewHolder> {
 
-    private final List<WeeklyMeal> meals;
+    private final List<LocalWeeklyMeal> meals;
     private final OnWeeklyMealClickListener listener;
 
-    public WeeklyMealsAdapter(List<WeeklyMeal> meals, OnWeeklyMealClickListener listener) {
+    public WeeklyMealsAdapter(List<LocalWeeklyMeal> meals, OnWeeklyMealClickListener listener) {
         this.meals = meals;
         this.listener = listener;
     }
@@ -55,11 +54,11 @@ public class WeeklyMealsAdapter extends RecyclerView.Adapter<WeeklyMealsAdapter.
             mealImage = itemView.findViewById(R.id.ivMealImage);
         }
 
-        public void bind(WeeklyMeal meal, OnWeeklyMealClickListener listener) {
-            dayOfWeek.setText(meal.getDayOfWeek());
-            mealName.setText(meal.getMealName());
-            Glide.with(itemView.getContext()).load(meal.getMealThumb()).placeholder(R.drawable.icon_ingredient_loading).error(R.drawable.icon_ingredient_failed).into(mealImage);
-            itemView.setOnClickListener(v -> listener.onWeeklyMealClick(meal.getMealId()));
+        public void bind(LocalWeeklyMeal meal, OnWeeklyMealClickListener listener) {
+            dayOfWeek.setText(meal.dayOfTheWeek);
+            mealName.setText(meal.strMeal);
+            Glide.with(itemView.getContext()).load(meal.dayOfTheWeek).placeholder(R.drawable.icon_ingredient_loading).error(R.drawable.icon_ingredient_failed).into(mealImage);
+            itemView.setOnClickListener(v -> listener.onWeeklyMealClick(meal.idMeal));
         }
     }
 }
