@@ -1,7 +1,7 @@
 package com.example.dishdiscovery.repository.RemoteRepo;
 
 import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
-import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
+import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallback;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
@@ -20,7 +20,7 @@ public interface IMealsRemoteRepo {
     void getAllMealsByCategory(String category, IFilterMealsNetworkCallBack allMealsNetworkCallBack);
 
 
-    void getFavoriteMeals(OnFavNetworkCallBack onFavNetworkCallBack);
+    void getFavoriteMeals(OnFavNetworkCallback onFavNetworkCallBack);
 
     void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack);
 

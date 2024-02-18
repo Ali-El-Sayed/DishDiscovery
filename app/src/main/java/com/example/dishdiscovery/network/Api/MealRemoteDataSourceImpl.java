@@ -9,7 +9,6 @@ import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.network.data.CategoryResponse;
 import com.example.dishdiscovery.network.data.MealResponse;
 import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
-import com.example.dishdiscovery.weeklyMeals.view.IWeeklyMealsView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,8 +28,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     private static final String TAG = "MealRemoteDataSourceImpl";
-    private MealsService mealsService;
     private static MealRemoteDataSourceImpl instance;
+    private final MealsService mealsService;
 
     private MealRemoteDataSourceImpl() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

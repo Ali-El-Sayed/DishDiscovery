@@ -1,11 +1,11 @@
 package com.example.dishdiscovery.weeklyMeals.presenter;
 
-import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
+import com.example.dishdiscovery.model.Meal;
 
 import java.util.List;
 
 public interface OnLocalWeeklyMeals {
-    void onLoadingSuccess(List<LocalWeeklyMeal> meals);
+    void onLoadingSuccess(List<Meal> meals);
 
     void onLoadingError(String message);
 

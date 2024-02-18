@@ -14,8 +14,8 @@ import com.example.dishdiscovery.model.Meal;
 
 public class InstructionsFragment extends Fragment {
 
-    private FragmentInstructionsBinding _binding;
     private final Meal _meal;
+    private FragmentInstructionsBinding _binding;
 
     public InstructionsFragment(Meal meal) {
         this._meal = meal;

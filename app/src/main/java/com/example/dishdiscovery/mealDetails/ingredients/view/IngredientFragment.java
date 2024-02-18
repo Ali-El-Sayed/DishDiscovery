@@ -19,10 +19,9 @@ import java.util.List;
 
 
 public class IngredientFragment extends Fragment implements IIngredientView {
-    private FragmentIngredientBinding _binding;
     IIngredientsPresenter _presenter;
-
-    private Meal _meal;
+    private FragmentIngredientBinding _binding;
+    private final Meal _meal;
 
     public IngredientFragment(Meal meal) {
         this._meal = meal;

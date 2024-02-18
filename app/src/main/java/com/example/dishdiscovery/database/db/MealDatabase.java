@@ -1,4 +1,4 @@
-package com.example.dishdiscovery.database.room;
+package com.example.dishdiscovery.database.db;
 
 import android.content.Context;
 
@@ -6,15 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
+import com.example.dishdiscovery.model.Meal;
+import com.example.dishdiscovery.model.UserLocalFavMeals;
 
-@Database(entities = {LocalWeeklyMeal.class}, version = 1, exportSchema = false)
+@Database(entities = {Meal.class, UserLocalFavMeals.class}, version = 1, exportSchema = false)
 public abstract class MealDatabase extends RoomDatabase {
-    public abstract MealsDao mealsDao();
-
-    private static MealDatabase _instance;
     public static final String DATABASE_NAME = "meals_db";
-
+    private static MealDatabase _instance;
 
     public static synchronized MealDatabase getInstance(Context context) {
         if (_instance == null) {
@@ -26,5 +24,7 @@ public abstract class MealDatabase extends RoomDatabase {
 
         return _instance;
     }
+
+    public abstract MealsDao mealsDao();
 
 }

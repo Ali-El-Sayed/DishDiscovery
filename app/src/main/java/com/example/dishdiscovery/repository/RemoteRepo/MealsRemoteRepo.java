@@ -3,7 +3,7 @@ package com.example.dishdiscovery.repository.RemoteRepo;
 import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
 import com.example.dishdiscovery.database.firebaseRealtime.IFirebaseRealtimeDataSource;
 import com.example.dishdiscovery.database.sharedPreferences.ISharedPreferences;
-import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
+import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallback;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
@@ -62,7 +62,7 @@ public class MealsRemoteRepo implements IMealsRemoteRepo {
     }
 
     @Override
-    public void getFavoriteMeals(OnFavNetworkCallBack onFavNetworkCallBack) {
+    public void getFavoriteMeals(OnFavNetworkCallback onFavNetworkCallBack) {
         _firebaseRealtime.getUserFavoriteMeals(_sharedPreferences.getUserId(), onFavNetworkCallBack);
     }
 

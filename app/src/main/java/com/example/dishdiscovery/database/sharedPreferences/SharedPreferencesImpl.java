@@ -37,7 +37,7 @@ public class SharedPreferencesImpl implements ISharedPreferences {
     @Override
     public void saveUserId(String userId) {
         SharedPreferences.Editor editor = _sharedPreferences.edit();
-        editor.putString(MEAL_OF_THE_DAY, userId);
+        editor.putString(USER_ID, userId);
         editor.apply();
     }
 
@@ -48,7 +48,7 @@ public class SharedPreferencesImpl implements ISharedPreferences {
 
     @Override
     public String getUserId() {
-        return _sharedPreferences.getString(MEAL_OF_THE_DAY, "");
+        return _sharedPreferences.getString(USER_ID, "");
     }
 
     @Override

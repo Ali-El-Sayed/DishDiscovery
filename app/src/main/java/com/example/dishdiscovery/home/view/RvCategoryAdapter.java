@@ -18,9 +18,9 @@ import java.util.List;
 
 public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final OnCardItemClick _onCardItemClick;
     Meal meal;
     List<Category> categories;
-    private final OnCardItemClick _onCardItemClick;
 
     public RvCategoryAdapter(OnCardItemClick onCardItemClick, Meal meal, List<Category> categories) {
         this.meal = meal;

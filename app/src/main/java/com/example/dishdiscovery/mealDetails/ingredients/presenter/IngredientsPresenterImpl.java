@@ -10,7 +10,7 @@ import java.util.List;
 
 public class IngredientsPresenterImpl implements IIngredientsPresenter {
 
-    private IIngredientView _view;
+    private final IIngredientView _view;
 
     public IngredientsPresenterImpl(IIngredientView view) {
         this._view = view;

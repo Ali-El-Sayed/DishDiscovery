@@ -15,8 +15,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
-import com.example.dishdiscovery.database.room.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
@@ -42,6 +42,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     private IMealDetailsPresenter _presenter;
     private ViewPagerAdapter _adapter;
     private Meal meal = new Meal();
+    private Boolean isFavorite = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _presenter = new MealDetailsImpl(
-                this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), MealLocalRepoImpl.getInstance(MealsLocalDatasourceImpl.getInstance(getActivity(),SharedPreferencesImpl.getInstance(getActivity().getApplicationContext()))));
+        _presenter = new MealDetailsImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), MealLocalRepoImpl.getInstance(MealsLocalDatasourceImpl.getInstance(getActivity(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext()))));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
     }
@@ -64,6 +64,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         String mealId = (String) getArguments().get(CONSTANTS.MEAL_ID);
         _presenter.getMealById(mealId);
+        _presenter.checkIsFavorite(mealId);
         initUI();
 
     }
@@ -120,7 +121,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
                     String dayName = outFormat.format(date);
 
                     Log.i(TAG, "initUI: " + dayName);
-                    Log.i(TAG, "initUI: " +new Meal( meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
+                    Log.i(TAG, "initUI: " + new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
                     _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -131,6 +132,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
         });
 
+        _binding.ivFavorite.setOnClickListener(v -> {
+            if (isFavorite) _presenter.removeFromFavorites(meal.idMeal);
+            else _presenter.addToFavorites(meal);
+        });
 
         _binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -172,7 +177,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(CONSTANTS.MEAL_ID, (String) getArguments().get("mealId"));
+        outState.putString(CONSTANTS.MEAL_ID, (String) getArguments().get(CONSTANTS.MEAL_ID));
         outState.putString(CONSTANTS.CATEGORY_NAME, _binding.tvMealDetailsName.getText().toString());
         outState.putString(CONSTANTS.MEAL_AREA, _binding.tvMealDetailsArea.getText().toString());
         outState.putString(CONSTANTS.MEAL_CATEGORY, _binding.tvMealDetailsCategory.getText().toString());
@@ -182,10 +187,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
+            _presenter.getMealById(savedInstanceState.getString(CONSTANTS.MEAL_ID));
             _binding.tvMealDetailsName.setText(savedInstanceState.getString(CONSTANTS.CATEGORY_NAME));
             _binding.tvMealDetailsArea.setText(savedInstanceState.getString(CONSTANTS.MEAL_AREA));
             _binding.tvMealDetailsCategory.setText(savedInstanceState.getString(CONSTANTS.MEAL_CATEGORY));
-            _presenter.getMealById(savedInstanceState.getString(CONSTANTS.MEAL_ID));
         }
     }
 
@@ -214,6 +219,38 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public void onSaveUserWeeklyMealsError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void isFavorite(Boolean isFavorite) {
+        this.isFavorite = isFavorite;
+        if (isFavorite) _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
+        else _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
+
+    }
+
+    @Override
+    public void onSavedToFavSuccess() {
+        isFavorite = !isFavorite;
+        _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
+        Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSavedToFavError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveFavSuccess() {
+        isFavorite = !isFavorite;
+        _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
+        Toast.makeText(getContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveFavError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 

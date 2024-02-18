@@ -30,11 +30,11 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
 
+    Meal meal = new Meal();
+    List<Category> categories = new ArrayList<>();
     private IHomePresenter presenter;
     private FragmentHomeBinding binding;
     private RvCategoryAdapter adapter;
-    Meal meal = new Meal();
-    List<Category> categories = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

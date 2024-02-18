@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface ISearchNetworkCallBack {
     void onSearchResults(List<Meal> meals);
+
     void onSearchError(String error);
 }

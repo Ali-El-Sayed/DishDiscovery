@@ -103,6 +103,6 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onMealClick(String mealId) {
         Bundle bundle = new Bundle();
         bundle.putString(CONSTANTS.MEAL_ID, mealId);
-        Navigation.findNavController(binding.getRoot()).navigate(com.example.dishdiscovery.R.id.action_allMealsFragment_to_mealDetailsFragment, bundle);
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_allMealsFragment_to_mealDetailsFragment, bundle);
     }
 }

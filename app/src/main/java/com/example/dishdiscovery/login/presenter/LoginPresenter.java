@@ -10,7 +10,7 @@ import com.google.firebase.auth.AuthResult;
 
 public class LoginPresenter implements ILoginPresenter, OnLoginComplete {
     ILogin view;
-    private IAuthRepo repo;
+    private final IAuthRepo repo;
 
     public LoginPresenter(ILogin view, IAuthRepo repo) {
         this.view = view;

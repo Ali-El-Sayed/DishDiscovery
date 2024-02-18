@@ -10,6 +10,33 @@ import com.google.gson.annotations.SerializedName;
 @Entity(primaryKeys = {"dateOfTheDay", "userId"})
 public class LocalWeeklyMeal {
 
+    @NonNull
+    @SerializedName("idMeal")
+    @Expose
+    public String idMeal;
+    @SerializedName("dateOfTheDay")
+    @Expose
+    @NonNull
+    public String dateOfTheDay;
+    @SerializedName("userId")
+    @NonNull
+    public String userId;
+    @SerializedName("dayOfTheWeek")
+    @Expose
+    public String dayOfTheWeek;
+    @SerializedName("strMeal")
+    @Expose
+    public String strMeal;
+    @SerializedName("strCategory")
+    @Expose
+    public String strCategory;
+    @SerializedName("strArea")
+    @Expose
+    public String strArea;
+    @SerializedName("strMealThumb")
+    @Expose
+    public String strMealThumb;
+
     public LocalWeeklyMeal() {
         this.dayOfTheWeek = "";
         this.idMeal = "";
@@ -17,9 +44,8 @@ public class LocalWeeklyMeal {
         this.strCategory = "";
         this.strArea = "";
         this.strMealThumb = "";
-        userId = "";
-    }
 
+    }
     public LocalWeeklyMeal(String dayOfTheWeek, Meal meal) {
         this.dayOfTheWeek = dayOfTheWeek;
         this.idMeal = meal.idMeal;
@@ -28,7 +54,6 @@ public class LocalWeeklyMeal {
         this.strArea = meal.strArea;
         this.strMealThumb = meal.strMealThumb;
     }
-
     public LocalWeeklyMeal(String idMeal, String dateOfTheDay, String userId, String dayOfTheWeek, String strMeal, String strCategory, String strArea, String strMealThumb) {
         this.idMeal = idMeal;
         this.dateOfTheDay = dateOfTheDay;
@@ -39,38 +64,6 @@ public class LocalWeeklyMeal {
         this.strArea = strArea;
         this.strMealThumb = strMealThumb;
     }
-
-
-    @NonNull
-    @SerializedName("idMeal")
-    @Expose
-    public String idMeal;
-    @SerializedName("dateOfTheDay")
-    @Expose
-    @NonNull
-    public String dateOfTheDay;
-
-    @SerializedName("userId")
-    @NonNull
-    public String userId;
-
-
-    @SerializedName("dayOfTheWeek")
-    @Expose
-    public String dayOfTheWeek;
-    @SerializedName("strMeal")
-    @Expose
-    public String strMeal;
-
-    @SerializedName("strCategory")
-    @Expose
-    public String strCategory;
-    @SerializedName("strArea")
-    @Expose
-    public String strArea;
-    @SerializedName("strMealThumb")
-    @Expose
-    public String strMealThumb;
 
     @Override
     public String toString() {

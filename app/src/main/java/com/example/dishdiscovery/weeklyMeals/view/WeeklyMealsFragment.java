@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
-import com.example.dishdiscovery.database.firebaseRealtime.model.LocalWeeklyMeal;
-import com.example.dishdiscovery.database.room.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentWeeklyMealsBinding;
+import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
 import com.example.dishdiscovery.repository.LocalRepo.MealLocalRepoImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
@@ -53,7 +53,7 @@ public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickLi
 
 
     @Override
-    public void showWeeklyMeals(List<LocalWeeklyMeal> userWeeklyMeals) {
+    public void showWeeklyMeals(List<Meal> userWeeklyMeals) {
 
     }
 

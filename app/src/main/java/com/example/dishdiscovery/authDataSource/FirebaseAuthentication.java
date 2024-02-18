@@ -22,12 +22,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
-    private static FirebaseAuthentication instance;
-    private FirebaseAuth _firebaseAuth = null;
     private static final String TAG = "FirebaseAuthentication";
-    private Activity activity;
+    private static FirebaseAuthentication instance;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInOptions gso;
+    private FirebaseAuth _firebaseAuth = null;
+    private final Activity activity;
 
 
     private FirebaseAuthentication(Activity activity) {
@@ -55,6 +55,13 @@ public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
     @Override
     public void registerWithEmail(OnRegisterComplete onRegisterComplete, String email, String password) {
         _firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, onRegisterComplete::onComplete);
+    }
+
+    @Override
+    public void logout() {
+        if (_firebaseAuth.getCurrentUser() != null) {
+            _firebaseAuth.signOut();
+        }
     }
 
     @Override

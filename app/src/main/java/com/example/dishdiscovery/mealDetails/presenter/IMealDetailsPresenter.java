@@ -7,4 +7,9 @@ public interface IMealDetailsPresenter {
 
     void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal);
 
+    void checkIsFavorite(String mealId);
+
+    void addToFavorites(Meal meal);
+
+    void removeFromFavorites(String mealId);
 }

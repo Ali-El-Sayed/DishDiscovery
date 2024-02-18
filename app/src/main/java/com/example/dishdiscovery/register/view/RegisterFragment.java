@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.dishdiscovery.HomeScreenActivity;
+import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
@@ -36,16 +36,16 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterFragment extends Fragment implements IRegister {
     private static final String TAG = "Register";
-    private FragmentRegisterBinding binding;
     TextInputEditText textInputEditTextEmail;
     TextInputLayout textInputLayoutEmail;
     TextInputLayout textInputLayoutPassword;
     TextInputEditText textInputEditTextPassword;
     Button btnSignInWithGoogle;
     Button btnRegisterWithEmail;
-    private IRegisterPresenter registerPresenter;
     ActivityResultLauncher<Intent> signInLauncher;
     GoogleSignInClient mGoogleSignInClient;
+    private FragmentRegisterBinding binding;
+    private IRegisterPresenter registerPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

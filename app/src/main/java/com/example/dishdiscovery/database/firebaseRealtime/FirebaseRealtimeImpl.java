@@ -5,16 +5,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.dishdiscovery.database.firebaseRealtime.model.RemoteUserWeeklyMeals;
-import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallBack;
+import com.example.dishdiscovery.favorite.presenter.OnFavNetworkCallback;
 import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.model.UserFavMeals;
+import com.example.dishdiscovery.model.UserRemoteFavMeals;
 import com.example.dishdiscovery.util.CONSTANTS;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Completable;
 
@@ -44,7 +42,7 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtimeDataSource {
                     if (dataSnapshot.getValue().equals(mealId)) return;
 
 
-                _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(CONSTANTS.FAVORITES_REALTIME_DB).child(userId).child(CONSTANTS.FAVMEALS).child(snapshot.getChildrenCount() + "").setValue(mealId);
+                _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(CONSTANTS.FAVORITES_REALTIME_DB).child(userId).child(CONSTANTS.FAVMEALS).child(String.valueOf(snapshot.getChildrenCount())).setValue(mealId);
             }
 
             @Override
@@ -103,7 +101,7 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtimeDataSource {
     }
 
     private void createUserFavoriteMeals(String userId) {
-        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).setValue(new UserFavMeals(userId, new ArrayList<>()));
+        _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).setValue(new UserRemoteFavMeals());
     }
 
     private void createUserWeeklyMeals(String userId) {
@@ -128,11 +126,11 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtimeDataSource {
     }
 
     @Override
-    public void getUserFavoriteMeals(String userId, OnFavNetworkCallBack onFavNetworkCallBack) {
+    public void getUserFavoriteMeals(String userId, OnFavNetworkCallback onFavNetworkCallBack) {
         _database.getReference(CONSTANTS.USERS_REALTIME_DB).child(userId).child(CONSTANTS.FAVORITES_REALTIME_DB).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                onFavNetworkCallBack.onSuccess(snapshot.getValue(UserFavMeals.class));
+                onFavNetworkCallBack.onSuccess(snapshot.getValue(UserRemoteFavMeals.class));
             }
 
             @Override

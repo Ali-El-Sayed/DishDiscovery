@@ -12,5 +12,5 @@ public class CONSTANTS {
     public static final String FAVORITES_REALTIME_DB = "favorites";
     public static final String FAVMEALS = "favMeals";
     public static final String WEEKLY_MEALS_REALTIME_DB = "weekly";
-    public static final String WEEKLY_MEALS ="weeklyMeals"; ;
+    public static final String WEEKLY_MEALS = "weeklyMeals";
 }

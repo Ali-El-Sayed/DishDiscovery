@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.AllMeals.view.OnMealClickListener;
 import com.example.dishdiscovery.R;
-import com.example.dishdiscovery.model.FilteredMeal;
 import com.example.dishdiscovery.model.Meal;
 
 import java.util.List;

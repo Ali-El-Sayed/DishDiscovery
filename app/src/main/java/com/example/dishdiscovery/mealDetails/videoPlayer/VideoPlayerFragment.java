@@ -18,7 +18,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 
 public class VideoPlayerFragment extends Fragment {
 
-    private Meal _meal;
+    private final Meal _meal;
     private FragmentVideoPlayerBinding _binding;
 
     public VideoPlayerFragment(Meal meal) {
@@ -43,8 +43,7 @@ public class VideoPlayerFragment extends Fragment {
         getLifecycle().addObserver(_binding.youtubePlayerView);
 
 
-
-       _binding.youtubePlayerView.initialize(new AbstractYouTubePlayerListener() {
+        _binding.youtubePlayerView.initialize(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 String videoId = _meal.strYoutube.split("=")[1];
