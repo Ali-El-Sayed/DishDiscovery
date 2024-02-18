@@ -4,6 +4,7 @@ import com.example.dishdiscovery.database.db.IMealLocalDatasource;
 import com.example.dishdiscovery.favorite.presenter.OnFavLocalCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnFavouriteCheckCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnLoadFavMeal;
+import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.weeklyMeals.presenter.OnLocalWeeklyMeals;
@@ -30,8 +31,8 @@ public class MealLocalRepoImpl implements IMealLocalRepo {
     }
 
     @Override
-    public void saveUserWeeklyMeals(Meal meal) {
-        _mealsLocalDatasource.saveUserWeeklyMeals(meal);
+    public void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callback) {
+        _mealsLocalDatasource.saveUserWeeklyMeals(meal, callback);
     }
 
     @Override

@@ -53,13 +53,14 @@ public class FirebaseRealtimeImpl implements IFirebaseRealtimeDataSource {
     }
 
     @Override
-    public Completable saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal) {
+    public Completable saveUserWeeklyMeals(String userId, Meal meal) {
         Log.i(TAG, "saveUserWeeklyMeals: " + meal);
+        meal.userId = userId;
         return Completable.create(emitter -> {
             _database.getReference(CONSTANTS.USERS_REALTIME_DB)
                     .child(userId)
                     .child(CONSTANTS.WEEKLY_MEALS_REALTIME_DB)
-                    .child("_" + dayOfWeek.toLowerCase()).setValue(meal).addOnCompleteListener(task -> {
+                    .child("_" + meal.dayOfTheWeek.toLowerCase()).setValue(meal).addOnCompleteListener(task -> {
                         if (task.isSuccessful()) emitter.onComplete();
                         else emitter.onError(task.getException());
                     });

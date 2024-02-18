@@ -1,11 +1,8 @@
 package com.example.dishdiscovery.weeklyMeals.presenter;
 
-import com.example.dishdiscovery.model.Meal;
-
 public interface IWeeklyMealsPresenter {
 
-    void getUserWeeklyMeal(String mealId);
+    void getWeeklyMeals();
 
-    void saveUserWeeklyMeal(Meal meal);
 
 }

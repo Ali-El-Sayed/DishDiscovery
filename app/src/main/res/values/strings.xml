@@ -69,4 +69,6 @@
     <string name="searchbar_hint">Search....</string>
     <string name="connection_failed">Connection Failed</string>
     <string name="planner">Planner</string>
+    <string name="oops_you_have_eaten_all_the_meals">Oops you have eaten all the meals..</string>
+    <string name="add_some_meals_to_your_favorite_list">Add some meals to your favorite list..</string>
 </resources>

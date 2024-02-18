@@ -13,7 +13,7 @@ import com.example.dishdiscovery.util.MealParser;
 
 import java.util.List;
 
-public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, OnFavouriteCheckCallback, onSaveUserWeeklyMealsCallBack, OnLoadFavMeal {
+public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, OnFavouriteCheckCallback, onSaveUserWeeklyMealsCallBack, OnLoadFavMeal, OnLoadWeeklyMeal {
     private static final String TAG = "MealDetailsImpl";
     private final IMealDetails _view;
     private final IMealsRemoteRepo _remoteRepo;
@@ -31,10 +31,9 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
     }
 
     @Override
-    public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal) {
-        meal.dayOfTheWeek = dayOfTheWeek;
-        _remoteRepo.saveUserWeeklyMeals(dayOfTheWeek, meal, this);
-        _localRepo.saveUserWeeklyMeals(meal);
+    public void saveUserWeeklyMeals(Meal meal) {
+        _remoteRepo.saveUserWeeklyMeals(meal, this);
+        _localRepo.saveUserWeeklyMeals(meal,this);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
 
     @Override
     public void getMealFromLocal(String mealId) {
-        _localRepo.getMealById(mealId,this );
+        _localRepo.getMealById(mealId, this);
     }
 
     @Override
@@ -108,13 +107,21 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
 
     @Override
     public void onLoadFavMealsSuccess(UserLocalFavMeals userLocalFavMeals) {
-        Log.i(TAG, "onLoadFavMealsSuccess: "+userLocalFavMeals);
+        Log.i(TAG, "onLoadFavMealsSuccess: " + userLocalFavMeals);
         _view.displayMealFromLocal(userLocalFavMeals);
     }
 
     @Override
+    public void onLoadFavMealsSuccess(Meal userLocalFavMeals) {
+        Log.i(TAG, "onLoadFavMealsSuccess: " + userLocalFavMeals);
+        UserLocalFavMeals meal = new UserLocalFavMeals();
+        meal.setMeal(userLocalFavMeals);
+        _view.displayMealFromLocal(meal);
+    }
+
+    @Override
     public void onLoadFavMealsError(String message) {
-        Log.i(TAG, "onLoadFavMealsError: "+ message);
+        Log.i(TAG, "onLoadFavMealsError: " + message);
         _view.showError(message);
     }
 }

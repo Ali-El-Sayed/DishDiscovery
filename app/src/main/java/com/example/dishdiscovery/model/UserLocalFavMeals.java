@@ -390,8 +390,59 @@ public class UserLocalFavMeals {
         meal.ingredients = this.ingredients;
         meal.measurements = this.measurements;
 
-
         return meal;
+
+    }
+
+    public void setMeal(Meal m) {
+        this.idMeal = m.idMeal;
+        this.strMeal = m.strMeal;
+        this.strCategory = m.strCategory;
+        this.strArea = m.strArea;
+        this.strMealThumb = m.strMealThumb;
+        this.strInstructions = m.strInstructions;
+        this.strYoutube = m.strYoutube;
+        this.strIngredient1 = m.strIngredient1;
+        this.strIngredient2 = m.strIngredient2;
+        this.strIngredient3 = m.strIngredient3;
+        this.strIngredient4 = m.strIngredient4;
+        this.strIngredient5 = m.strIngredient5;
+        this.strIngredient6 = m.strIngredient6;
+        this.strIngredient7 = m.strIngredient7;
+        this.strIngredient8 = m.strIngredient8;
+        this.strIngredient9 = m.strIngredient9;
+        this.strIngredient10 = m.strIngredient10;
+        this.strIngredient11 = m.strIngredient11;
+        this.strIngredient12 = m.strIngredient12;
+        this.strIngredient13 = m.strIngredient13;
+        this.strIngredient14 = m.strIngredient14;
+        this.strIngredient15 = m.strIngredient15;
+        this.strIngredient16 = m.strIngredient16;
+        this.strIngredient17 = m.strIngredient17;
+        this.strIngredient18 = m.strIngredient18;
+        this.strIngredient19 = m.strIngredient19;
+        this.strIngredient20 = m.strIngredient20;
+        this.strMeasure1 = m.strMeasure1;
+        this.strMeasure2 = m.strMeasure2;
+        this.strMeasure3 = m.strMeasure3;
+        this.strMeasure4 = m.strMeasure4;
+        this.strMeasure5 = m.strMeasure5;
+        this.strMeasure6 = m.strMeasure6;
+        this.strMeasure7 = m.strMeasure7;
+        this.strMeasure8 = m.strMeasure8;
+        this.strMeasure9 = m.strMeasure9;
+        this.strMeasure10 = m.strMeasure10;
+        this.strMeasure11 = m.strMeasure11;
+        this.strMeasure12 = m.strMeasure12;
+        this.strMeasure13 = m.strMeasure13;
+        this.strMeasure14 = m.strMeasure14;
+        this.strMeasure15 = m.strMeasure15;
+        this.strMeasure16 = m.strMeasure16;
+        this.strMeasure17 = m.strMeasure17;
+        this.strMeasure18 = m.strMeasure18;
+        this.strMeasure19 = m.strMeasure19;
+        this.strMeasure20 = m.strMeasure20;
+        this.strSource = m.strSource;
 
     }
 }

@@ -22,7 +22,7 @@ public interface IMealsRemoteRepo {
 
     void getFavoriteMeals(OnFavNetworkCallback onFavNetworkCallBack);
 
-    void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack);
+    void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callBack);
 
 
 }

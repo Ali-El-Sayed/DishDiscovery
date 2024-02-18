@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Completable;
 
 public interface IFirebaseRealtimeDataSource {
 
-    Completable saveUserWeeklyMeals(String userId, String dayOfWeek, Meal meal);
+    Completable saveUserWeeklyMeals(String userId, Meal meal);
 
     void getUserWeeklyMeals(String userId);
 
