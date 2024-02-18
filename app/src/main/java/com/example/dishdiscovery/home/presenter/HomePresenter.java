@@ -3,15 +3,15 @@ package com.example.dishdiscovery.home.presenter;
 import com.example.dishdiscovery.home.view.IHome;
 import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.model.Meal;
-import com.example.dishdiscovery.repository.RemoteRepo.IMealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 
 import java.util.List;
 
 public class HomePresenter implements IHomePresenter, ICategoriesNetworkCall, IMealNetworkCall {
     private final IHome _view;
-    private final IMealsRepo _repo;
+    private final IMealsRemoteRepo _repo;
 
-    public HomePresenter(IHome view, IMealsRepo repo) {
+    public HomePresenter(IHome view, IMealsRemoteRepo repo) {
         this._view = view;
         this._repo = repo;
     }

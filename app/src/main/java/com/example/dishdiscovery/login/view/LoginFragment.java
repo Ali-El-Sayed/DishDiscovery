@@ -16,9 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.dishdiscovery.HomeScreenActivity;
+import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentLoginBinding;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
@@ -28,23 +30,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 
 public class LoginFragment extends Fragment implements ILogin {
     private static final String TAG = "LoginFragment";
-    private FragmentLoginBinding binding;
-
     ILoginPresenter presenter;
     ActivityResultLauncher<Intent> signInLauncher;
     GoogleSignInClient mGoogleSignInClient;
+    private FragmentLoginBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity())));
-
+        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity()), SharedPreferencesImpl.getInstance(getActivity())));
         signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> presenter.loginWithGoogle(result));
 
     }
@@ -59,7 +57,7 @@ public class LoginFragment extends Fragment implements ILogin {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUi();
-        presenter = new LoginPresenter(this, AuthRepository.getInstance(FirebaseAuthentication.getInstance(getActivity()), FirebaseAuthentication.getInstance(getActivity())));
+
     }
 
     private void initUi() {
@@ -116,7 +114,6 @@ public class LoginFragment extends Fragment implements ILogin {
         });
     }
 
-
     private void passwordValidation(CharSequence s) {
         if (s.length() < 6) {
             binding.etPasswordLayout.setErrorEnabled(true);
@@ -148,6 +145,12 @@ public class LoginFragment extends Fragment implements ILogin {
     @Override
     public void onLoginSuccess(Task<AuthResult> task) {
         FirebaseUser user = task.getResult().getUser();
+
+        FirebaseRealtimeImpl.getInstance().verifyUserFavoriteMealsCreated(user.getUid());
+
+        presenter.saveUserId(user.getUid());
+
+
         Log.i(TAG, "Login onComplete: user id: " + user.getUid());
         Toast.makeText(getContext(), "Authentication success.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getActivity(), HomeScreenActivity.class));
@@ -159,6 +162,5 @@ public class LoginFragment extends Fragment implements ILogin {
         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
         Log.e(TAG, "onLoginFailure:  " + e.getMessage());
     }
-
 
 }

@@ -35,11 +35,11 @@ android {
 
 dependencies {
     def lottieVersion = "3.4.0"
+    def room_version = "2.6.1"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
     // Navigation
     implementation 'androidx.navigation:navigation-fragment:2.6.0'
     implementation 'androidx.navigation:navigation-ui:2.6.0'
@@ -53,6 +53,8 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:32.7.1')
     implementation 'com.google.firebase:firebase-analytics'
+    // Firebase Realtime Database
+    implementation"com.google.firebase:firebase-database"
     // Lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
     // circle image view
@@ -74,7 +76,10 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava3:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

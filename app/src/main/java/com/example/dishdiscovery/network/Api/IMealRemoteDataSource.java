@@ -11,7 +11,9 @@ public interface IMealRemoteDataSource {
     void getRandomMeal(IMealNetworkCall mealNetworkCall);
 
     void getMealById(String id, IMealNetworkCall mealNetworkCall);
-    void searchMealByName(String mealName,  ISearchNetworkCallBack searchNetworkCallBack);
+
+
+    void searchMealByName(String mealName, ISearchNetworkCallBack searchNetworkCallBack);
 
     void getMealsByCategoryName(String categoryId, IFilterMealsNetworkCallBack allMealsNetworkCallBack);
 

@@ -14,8 +14,8 @@ import com.example.dishdiscovery.model.Meal;
 
 public class InstructionsFragment extends Fragment {
 
-    private FragmentInstructionsBinding _binding;
     private final Meal _meal;
+    private FragmentInstructionsBinding _binding;
 
     public InstructionsFragment(Meal meal) {
         this._meal = meal;
@@ -38,7 +38,7 @@ public class InstructionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        _binding.tvInstructions.setText(_meal.getStrInstructions());
+        _binding.tvInstructions.setText(_meal.strInstructions);
 
     }
 }

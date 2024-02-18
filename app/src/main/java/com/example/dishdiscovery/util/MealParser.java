@@ -12,26 +12,26 @@ public class MealParser {
         List<String> ingredients = new ArrayList<>();
         List<String> measurements = new ArrayList<>();
 
-        addIngredientAndMeasurement(meal.getStrIngredient1(), meal.getStrMeasure1(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient2(), meal.getStrMeasure2(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient3(), meal.getStrMeasure3(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient4(), meal.getStrMeasure4(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient5(), meal.getStrMeasure5(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient6(), meal.getStrMeasure6(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient7(), meal.getStrMeasure7(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient8(), meal.getStrMeasure8(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient9(), meal.getStrMeasure9(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient10(), meal.getStrMeasure10(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient11(), meal.getStrMeasure11(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient12(), meal.getStrMeasure12(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient13(), meal.getStrMeasure13(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient14(), meal.getStrMeasure14(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient15(), meal.getStrMeasure15(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient16(), meal.getStrMeasure16(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient17(), meal.getStrMeasure17(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient18(), meal.getStrMeasure18(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient19(), meal.getStrMeasure19(), ingredients, measurements);
-        addIngredientAndMeasurement(meal.getStrIngredient20(), meal.getStrMeasure20(), ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient1, meal.strMeasure1, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient2, meal.strMeasure2, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient3, meal.strMeasure3, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient4, meal.strMeasure4, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient5, meal.strMeasure5, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient6, meal.strMeasure6, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient7, meal.strMeasure7, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient8, meal.strMeasure8, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient9, meal.strMeasure9, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient10, meal.strMeasure10, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient11, meal.strMeasure11, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient12, meal.strMeasure12, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient13, meal.strMeasure13, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient14, meal.strMeasure14, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient15, meal.strMeasure15, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient16, meal.strMeasure16, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient17, meal.strMeasure17, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient18, meal.strMeasure18, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient19, meal.strMeasure19, ingredients, measurements);
+        addIngredientAndMeasurement(meal.strIngredient20, meal.strMeasure20, ingredients, measurements);
 
         return new Pair<>(ingredients, measurements);
     }

@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.dishdiscovery.AllMeals.presenter.AllMealsPresenterImpl;
 import com.example.dishdiscovery.AllMeals.presenter.IAllMealsPresenter;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentAllMealsBinding;
 import com.example.dishdiscovery.model.FilteredMeal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _presenter = new AllMealsPresenterImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        _presenter = new AllMealsPresenterImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override
@@ -101,6 +103,6 @@ public class AllMealsFragment extends Fragment implements IAllMealsView, OnMealC
     public void onMealClick(String mealId) {
         Bundle bundle = new Bundle();
         bundle.putString(CONSTANTS.MEAL_ID, mealId);
-        Navigation.findNavController(binding.getRoot()).navigate(com.example.dishdiscovery.R.id.action_allMealsFragment_to_mealDetailsFragment, bundle);
+        Navigation.findNavController(binding.getRoot()).navigate(R.id.action_allMealsFragment_to_mealDetailsFragment, bundle);
     }
 }

@@ -18,9 +18,9 @@ import java.util.List;
 
 public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final OnCardItemClick _onCardItemClick;
     Meal meal;
     List<Category> categories;
-    private final OnCardItemClick _onCardItemClick;
 
     public RvCategoryAdapter(OnCardItemClick onCardItemClick, Meal meal, List<Category> categories) {
         this.meal = meal;
@@ -44,7 +44,7 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
             ((MealOfTheDayViewHolder) holder).bindData(meal);
-            holder.itemView.setOnClickListener(v -> _onCardItemClick.onMealOfTheDayClick(meal.getIdMeal()));
+            holder.itemView.setOnClickListener(v -> _onCardItemClick.onMealOfTheDayClick(meal.idMeal));
         } else {
             ((CategoryViewHolder) holder).bindData(categories.get(position - 1));
             holder.itemView.setOnClickListener(v -> _onCardItemClick.onCategoryClick(categories.get(position - 1).getStrCategory()));
@@ -104,9 +104,9 @@ public class RvCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bindData(Meal meal) {
-            tvMealName.setText(meal.getStrMeal());
-            tvCountry.setText(meal.getStrArea());
-            Glide.with(ivMealImage.getContext()).load(meal.getStrMealThumb()).into(ivMealImage);
+            tvMealName.setText(meal.strMeal);
+            tvCountry.setText(meal.strArea);
+            Glide.with(ivMealImage.getContext()).load(meal.strMealThumb).into(ivMealImage);
         }
     }
 }

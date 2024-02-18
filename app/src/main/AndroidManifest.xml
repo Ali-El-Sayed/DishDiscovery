@@ -13,9 +13,9 @@
         android:theme="@style/Theme.DishDiscovery.Splash"
         tools:targetApi="31">
         <activity
-            android:name=".HomeScreenActivity"
-            android:theme="@style/Theme.DishDiscovery"
-            android:exported="true">
+            android:name=".home.HomeScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.DishDiscovery">
 
         </activity>
         <activity

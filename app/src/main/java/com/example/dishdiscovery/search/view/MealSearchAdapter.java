@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.AllMeals.view.OnMealClickListener;
 import com.example.dishdiscovery.R;
-import com.example.dishdiscovery.model.FilteredMeal;
 import com.example.dishdiscovery.model.Meal;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class MealSearchAdapter extends RecyclerView.Adapter<MealSearchAdapter.Al
     @Override
     public void onBindViewHolder(@NonNull AllMealsViewHolder holder, int position) {
         holder.bind(allMeals.get(position));
-        holder.itemView.setOnClickListener(v -> _onMealClickListener.onMealClick(allMeals.get(position).getIdMeal()));
+        holder.itemView.setOnClickListener(v -> _onMealClickListener.onMealClick(allMeals.get(position).idMeal));
     }
 
     @Override
@@ -58,9 +57,9 @@ public class MealSearchAdapter extends RecyclerView.Adapter<MealSearchAdapter.Al
         }
 
         void bind(Meal meal) {
-            mealName.setText(meal.getStrMeal());
-            mealArea.setText(meal.getStrArea());
-            Glide.with(itemView.getContext()).load(meal.getStrMealThumb() + "/preview").into(mealImage);
+            mealName.setText(meal.strMeal);
+            mealArea.setText(meal.strArea);
+            Glide.with(itemView.getContext()).load(meal.strMealThumb + "/preview").into(mealImage);
         }
     }
 }

@@ -10,7 +10,7 @@ import com.google.firebase.auth.AuthResult;
 
 public class LoginPresenter implements ILoginPresenter, OnLoginComplete {
     ILogin view;
-    private IAuthRepo repo;
+    private final IAuthRepo repo;
 
     public LoginPresenter(ILogin view, IAuthRepo repo) {
         this.view = view;
@@ -25,6 +25,11 @@ public class LoginPresenter implements ILoginPresenter, OnLoginComplete {
     @Override
     public void loginWithGoogle(ActivityResult result) {
         repo.logInGoogle(this, result);
+    }
+
+    @Override
+    public void saveUserId(String userId) {
+        repo.saveUserId(userId);
     }
 
 

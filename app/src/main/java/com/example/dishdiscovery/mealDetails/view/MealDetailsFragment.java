@@ -1,6 +1,8 @@
 package com.example.dishdiscovery.mealDetails.view;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +15,34 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.LocalRepo.MealLocalRepoImpl;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.tabs.TabLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MealDetailsFragment extends Fragment implements IMealDetails {
 
+    private static final String TAG = "MealDetailsFragment";
     private FragmentMealDetailsBinding _binding;
     private IMealDetailsPresenter _presenter;
     private ViewPagerAdapter _adapter;
     private Meal meal = new Meal();
+    private Boolean isFavorite = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +52,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _presenter = new MealDetailsImpl(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        _presenter = new MealDetailsImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), MealLocalRepoImpl.getInstance(MealsLocalDatasourceImpl.getInstance(getActivity(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext()))));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
     }
@@ -49,6 +64,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
         String mealId = (String) getArguments().get(CONSTANTS.MEAL_ID);
         _presenter.getMealById(mealId);
+        _presenter.checkIsFavorite(mealId);
         initUI();
 
     }
@@ -58,7 +74,68 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Instructions"));
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Video"));
         _binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        _binding.ivFavorite.setOnClickListener(v -> {
 
+
+        });
+        _binding.ivAddCalender.setOnClickListener(v -> {
+            long today = MaterialDatePicker.todayInUtcMilliseconds();
+
+            long start = today;
+            long end = today + TimeUnit.DAYS.toMillis(6); // 7 days later
+
+            CalendarConstraints.DateValidator dateValidator = new CalendarConstraints.DateValidator() {
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+                }
+
+                @Override
+                public boolean isValid(long date) {
+                    // Only allow dates within the next 7 days
+                    return !(date < start || date > end);
+                }
+            };
+
+            CalendarConstraints constraints = new CalendarConstraints.Builder().setValidator(dateValidator).build();
+
+            MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+            builder.setTitleText("Select a date");
+            builder.setCalendarConstraints(constraints);
+
+            final MaterialDatePicker<Long> materialDatePicker = builder.build();
+
+            materialDatePicker.show(getChildFragmentManager(), "DATE_PICKER");
+
+            materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+                String selectedDate = materialDatePicker.getHeaderText();
+                try {
+                    SimpleDateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+                    Date date = inFormat.parse(selectedDate);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+                    String dayName = outFormat.format(date);
+
+                    Log.i(TAG, "initUI: " + dayName);
+                    Log.i(TAG, "initUI: " + new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
+                    _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+
+        });
+
+        _binding.ivFavorite.setOnClickListener(v -> {
+            if (isFavorite) _presenter.removeFromFavorites(meal.idMeal);
+            else _presenter.addToFavorites(meal);
+        });
 
         _binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -100,7 +177,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(CONSTANTS.MEAL_ID, (String) getArguments().get("mealId"));
+        outState.putString(CONSTANTS.MEAL_ID, (String) getArguments().get(CONSTANTS.MEAL_ID));
         outState.putString(CONSTANTS.CATEGORY_NAME, _binding.tvMealDetailsName.getText().toString());
         outState.putString(CONSTANTS.MEAL_AREA, _binding.tvMealDetailsArea.getText().toString());
         outState.putString(CONSTANTS.MEAL_CATEGORY, _binding.tvMealDetailsCategory.getText().toString());
@@ -110,10 +187,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
+            _presenter.getMealById(savedInstanceState.getString(CONSTANTS.MEAL_ID));
             _binding.tvMealDetailsName.setText(savedInstanceState.getString(CONSTANTS.CATEGORY_NAME));
             _binding.tvMealDetailsArea.setText(savedInstanceState.getString(CONSTANTS.MEAL_AREA));
             _binding.tvMealDetailsCategory.setText(savedInstanceState.getString(CONSTANTS.MEAL_CATEGORY));
-            _presenter.getMealById(savedInstanceState.getString(CONSTANTS.MEAL_ID));
         }
     }
 
@@ -124,15 +201,58 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tabLayout.getTabAt(0).setText("Ingredients (" + meal.getIngredients().size() + ")");
         _adapter.setMeal(meal);
         _binding.viewPager.setAdapter(_adapter);
-        _binding.tvMealDetailsName.setText(meal.getStrMeal());
-        _binding.tvMealDetailsArea.setText("Area : " + meal.getStrArea());
-        _binding.tvMealDetailsCategory.setText("Category : " + meal.getStrCategory());
-        Glide.with(getContext()).load(meal.getStrMealThumb()).into(_binding.ivMealDetails);
+        _binding.tvMealDetailsName.setText(meal.strMeal);
+        _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
+        _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
+        Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
     }
 
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onSaveUserWeeklyMealsSuccess() {
+        Toast.makeText(getContext(), "Meal added to your weekly meals", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveUserWeeklyMealsError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void isFavorite(Boolean isFavorite) {
+        this.isFavorite = isFavorite;
+        if (isFavorite) _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
+        else _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
+
+    }
+
+    @Override
+    public void onSavedToFavSuccess() {
+        isFavorite = !isFavorite;
+        _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
+        Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSavedToFavError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveFavSuccess() {
+        isFavorite = !isFavorite;
+        _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
+        Toast.makeText(getContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveFavError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

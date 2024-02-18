@@ -6,4 +6,5 @@ import com.example.dishdiscovery.login.presenter.OnLoginComplete;
 
 public interface IAuthGoogle {
     void loginWithGoogle(OnLoginComplete onLoginComplete, ActivityResult result);
+    void logout();
 }

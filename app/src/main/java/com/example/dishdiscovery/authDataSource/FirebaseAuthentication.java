@@ -14,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
@@ -23,12 +22,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
-    private static FirebaseAuthentication instance;
-    private FirebaseAuth _firebaseAuth = null;
     private static final String TAG = "FirebaseAuthentication";
-    private Activity activity;
+    private static FirebaseAuthentication instance;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInOptions gso;
+    private FirebaseAuth _firebaseAuth = null;
+    private final Activity activity;
 
 
     private FirebaseAuthentication(Activity activity) {
@@ -59,6 +58,13 @@ public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
     }
 
     @Override
+    public void logout() {
+        if (_firebaseAuth.getCurrentUser() != null) {
+            _firebaseAuth.signOut();
+        }
+    }
+
+    @Override
     public void loginWithGoogle(OnLoginComplete onLoginComplete, ActivityResult result) {
         handleLGoogleAuth(GoogleSignIn.getSignedInAccountFromIntent(result.getData())).addOnCompleteListener(activity, onLoginComplete::onComplete);
     }
@@ -84,5 +90,11 @@ public class FirebaseAuthentication implements IAuthEmailPassword, IAuthGoogle {
             return Tasks.forException(new Exception("Google Sign-In failed"));
         }
 
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        instance = null;
     }
 }

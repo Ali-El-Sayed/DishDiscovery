@@ -13,13 +13,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentHomeBinding;
 import com.example.dishdiscovery.home.presenter.HomePresenter;
 import com.example.dishdiscovery.home.presenter.IHomePresenter;
 import com.example.dishdiscovery.model.Category;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.util.CONSTANTS;
 
 import java.util.ArrayList;
@@ -28,16 +30,16 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
 
+    Meal meal = new Meal();
+    List<Category> categories = new ArrayList<>();
     private IHomePresenter presenter;
     private FragmentHomeBinding binding;
     private RvCategoryAdapter adapter;
-    Meal meal = new Meal();
-    List<Category> categories = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(this, MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()));
+        presenter = new HomePresenter(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

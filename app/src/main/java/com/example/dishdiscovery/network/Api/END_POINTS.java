@@ -8,4 +8,5 @@ public class END_POINTS {
     public static final String LOOKUP = "lookup.php";
     public static final String RANDOM = "random.php";
     public static final String SEARCH_BY_NAME = "search.php";
+
 }

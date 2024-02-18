@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.dishdiscovery.AllMeals.view.OnMealClickListener;
 import com.example.dishdiscovery.R;
+import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
+import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentSearchBinding;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
-import com.example.dishdiscovery.repository.RemoteRepo.MealsRepo;
+import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
 import com.example.dishdiscovery.search.presenter.ISearchPresenter;
 import com.example.dishdiscovery.search.presenter.SearchPresenterImpl;
 import com.example.dishdiscovery.util.CONSTANTS;
@@ -47,7 +49,7 @@ public class SearchFragment extends Fragment implements ISearchView, OnMealClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchPresenter = new SearchPresenterImpl(MealsRepo.getInstance(MealRemoteDataSourceImpl.getInstance()), this);
+        searchPresenter = new SearchPresenterImpl(MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), this);
     }
 
     @Override
