@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
@@ -45,6 +48,13 @@ public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickLi
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        _binding.rvWeeklyMeals.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        _presenter.getWeeklyMeals();
+    }
+
+    @Override
     public void onWeeklyMealClick(String mealId) {
         Bundle bundle = new Bundle();
         bundle.putString(CONSTANTS.MEAL_ID, mealId);
@@ -54,7 +64,9 @@ public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickLi
 
     @Override
     public void showWeeklyMeals(List<Meal> userWeeklyMeals) {
-
+        _binding.rvWeeklyMeals.setAdapter(new WeeklyMealsAdapter(userWeeklyMeals, this));
+        _binding.homeScreenLottieContainer.setVisibility(View.GONE);
+        _binding.homeScreenLottie.setVisibility(View.GONE);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.dishdiscovery.mealDetails.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
+import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
@@ -61,7 +63,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         return _binding.getRoot();
 
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -122,10 +123,8 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
                     Date date = inFormat.parse(selectedDate);
                     SimpleDateFormat outFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                     String dayName = outFormat.format(date);
-
-                    Log.i(TAG, "initUI: " + dayName);
-                    Log.i(TAG, "initUI: " + new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
-                    _presenter.saveUserWeeklyMeals(dayName, new Meal(meal.idMeal, meal.strMeal, meal.strCategory, meal.strArea, meal.strMealThumb));
+                    meal.dayOfTheWeek = dayName;
+                    _presenter.saveUserWeeklyMeals(meal);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -183,6 +182,9 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         outState.putString(CONSTANTS.CATEGORY_NAME, _binding.tvMealDetailsName.getText().toString());
         outState.putString(CONSTANTS.MEAL_AREA, _binding.tvMealDetailsArea.getText().toString());
         outState.putString(CONSTANTS.MEAL_CATEGORY, _binding.tvMealDetailsCategory.getText().toString());
+
+        getActivity().startActivity(new Intent(getActivity(), HomeScreenActivity.class));
+        getActivity().finish();
     }
 
     @Override
@@ -207,6 +209,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
         _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
         Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
+        _binding.detailsScreenLottieContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -216,12 +219,12 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public void onSaveUserWeeklyMealsSuccess() {
-        Toast.makeText(getContext(), "Meal added to your weekly meals", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Meal added to your weekly meals", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSaveUserWeeklyMealsError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Log.i(TAG, "onSaveUserWeeklyMealsError: " + error);
     }
 
     @Override
@@ -268,6 +271,12 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
         _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
         Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
+        _binding.detailsScreenLottieContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     private Boolean isInternetAvailable() {

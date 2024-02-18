@@ -15,20 +15,26 @@ import io.reactivex.rxjava3.core.Flowable;
 
 @Dao
 public interface MealsDao {
+    // user weekly meals
     @Query("SELECT * FROM Meal WHERE userId = :userId")
     Flowable<List<Meal>> loadUserWeeklyMeals(String userId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertUserWeeklyMeals(Meal localWeeklyMeal);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertUserFavMeal(UserLocalFavMeals userLocalFavMeals);
+    @Query("SELECT * FROM Meal WHERE idMeal = :mealId")
+    Flowable<Meal> getWeeklyMealById(String mealId);
 
+
+    // user favorite meals
     @Query("SELECT * FROM UserLocalFavMeals WHERE userId = :userId")
     Flowable<List<UserLocalFavMeals>> loadUserFavMeals(String userId);
 
     @Query("DELETE FROM UserLocalFavMeals WHERE userId = :userId AND idMeal = :mealId")
     Completable deleteUserFavMeals(String userId, String mealId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Completable insertUserFavMeals(UserLocalFavMeals userLocalFavMeals);
 
     // is favorite meal
     @Query("SELECT * FROM UserLocalFavMeals WHERE userId = :userId AND idMeal = :mealId")
@@ -36,4 +42,6 @@ public interface MealsDao {
 
     @Query("SELECT * FROM userlocalfavmeals WHERE idMeal = :mealId")
     Flowable<UserLocalFavMeals> getMealById(String mealId);
+
+
 }

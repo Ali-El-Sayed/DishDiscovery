@@ -14,22 +14,34 @@
         app:spanCount="2"
         tools:listitem="@layout/meal_of_the_day_card" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/home_screen_lottie"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading_animation"
-        app:lottie_scale="0.5" />
 
-<!--    <FrameLayout-->
-<!--        android:id="@+id/home_screen_lottie_container"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:background="@color/btn_background"></FrameLayout>-->
+    <FrameLayout
+        android:id="@+id/home_screen_lottie_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/btn_background">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/home_screen_lottie"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_weekly_meals_animation"
+            app:lottie_scale="0.5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="20sp"
+            android:layout_marginTop="120dp"
+            android:text="@string/oops_you_have_eaten_all_the_meals" />
+
+    </FrameLayout>
 
 
 </FrameLayout>

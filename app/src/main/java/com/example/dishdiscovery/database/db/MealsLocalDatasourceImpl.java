@@ -7,12 +7,12 @@ import com.example.dishdiscovery.database.sharedPreferences.ISharedPreferences;
 import com.example.dishdiscovery.favorite.presenter.OnFavLocalCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnFavouriteCheckCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnLoadFavMeal;
+import com.example.dishdiscovery.mealDetails.presenter.onSaveUserWeeklyMealsCallBack;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.weeklyMeals.presenter.OnLocalWeeklyMeals;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
@@ -36,13 +36,20 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
     @SuppressLint("CheckResult")
     @Override
     public void getLocalWeeklyMeals(OnLocalWeeklyMeals callback) {
-        _mealsDao.loadUserWeeklyMeals(_sharedPreferences.getUserId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadingSuccess);
+        _mealsDao.loadUserWeeklyMeals(_sharedPreferences.getUserId())
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(callback::onLoadingSuccess
+                        , throwable -> callback.onLoadingError(throwable.getMessage())
+                );
     }
 
     @Override
-    public void saveUserWeeklyMeals(Meal meal) {
+    public void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callback) {
         meal.userId = _sharedPreferences.getUserId();
-        _mealsDao.insertUserWeeklyMeals(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
+        _mealsDao.insertUserWeeklyMeals(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                callback::onSaveUserWeeklyMealsSuccess,
+                throwable -> callback.onSaveUserWeeklyMealsError(throwable.getMessage())
+        );
     }
 
     @SuppressLint("CheckResult")
@@ -56,11 +63,9 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
 
     @Override
     public void saveUserFavoriteMeal(UserLocalFavMeals userLocalFavMeals, OnFavouriteCheckCallback callback) {
-        userLocalFavMeals.userId = _sharedPreferences.getUserId();
-        Disposable subscribe = _mealsDao.insertUserFavMeal(userLocalFavMeals).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onAddToFavSuccess, throwable -> {
-                    callback.onAddToFavError(throwable.getMessage());
-                }
-        );
+        _mealsDao.insertUserFavMeals(userLocalFavMeals).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onAddToFavSuccess, throwable -> {
+            callback.onAddToFavError(throwable.getMessage());
+        });
     }
 
     @SuppressLint("CheckResult")

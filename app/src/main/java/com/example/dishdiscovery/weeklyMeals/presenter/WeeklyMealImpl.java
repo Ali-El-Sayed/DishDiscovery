@@ -20,13 +20,8 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetwor
     }
 
     @Override
-    public void getUserWeeklyMeal(String mealId) {
-//        _repo.getWeeklyMealById(mealId, this);
-    }
-
-    @Override
-    public void saveUserWeeklyMeal(Meal localWeeklyMeal) {
-        _localRepo.saveUserWeeklyMeals(localWeeklyMeal);
+    public void getWeeklyMeals() {
+        _localRepo.loadWeeklyMeals(this);
     }
 
     @Override
@@ -54,4 +49,6 @@ public class WeeklyMealImpl implements IWeeklyMealsPresenter, IWeeklyMealsNetwor
     public void onSaveSuccess() {
         _view.onSavedSuccess();
     }
+
+
 }

@@ -67,8 +67,8 @@ public class MealsRemoteRepo implements IMealsRemoteRepo {
     }
 
     @Override
-    public void saveUserWeeklyMeals(String dayOfTheWeek, Meal meal, onSaveUserWeeklyMealsCallBack callBack) {
-        Disposable subscribe = _firebaseRealtime.saveUserWeeklyMeals(_sharedPreferences.getUserId(), dayOfTheWeek, meal)
+    public void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callBack) {
+        Disposable subscribe = _firebaseRealtime.saveUserWeeklyMeals(_sharedPreferences.getUserId(), meal)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
