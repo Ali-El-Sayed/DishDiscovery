@@ -1,5 +1,6 @@
 package com.example.dishdiscovery.mealDetails.presenter;
 
+import android.util.Log;
 import android.util.Pair;
 
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
@@ -13,7 +14,7 @@ import com.example.dishdiscovery.util.MealParser;
 import java.util.List;
 
 public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, OnFavouriteCheckCallback, onSaveUserWeeklyMealsCallBack, OnLoadFavMeal {
-
+    private static final String TAG = "MealDetailsImpl";
     private final IMealDetails _view;
     private final IMealsRemoteRepo _remoteRepo;
     private final IMealLocalRepo _localRepo;
@@ -107,11 +108,13 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
 
     @Override
     public void onLoadFavMealsSuccess(UserLocalFavMeals userLocalFavMeals) {
+        Log.i(TAG, "onLoadFavMealsSuccess: "+userLocalFavMeals);
         _view.displayMealFromLocal(userLocalFavMeals);
     }
 
     @Override
     public void onLoadFavMealsError(String message) {
+        Log.i(TAG, "onLoadFavMealsError: "+ message);
         _view.showError(message);
     }
 }

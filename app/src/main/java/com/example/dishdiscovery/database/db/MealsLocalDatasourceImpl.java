@@ -81,7 +81,7 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
 
     @Override
     public void getMealById(String mealId, OnLoadFavMeal callback) {
-        _mealsDao.getMealById(mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userLocalFavMeals -> callback.onLoadFavMealsSuccess(userLocalFavMeals), throwable -> {
+        _mealsDao.getMealById(mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadFavMealsSuccess, throwable -> {
             callback.onLoadFavMealsError(throwable.getMessage());
         });
     }

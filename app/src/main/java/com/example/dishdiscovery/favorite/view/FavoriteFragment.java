@@ -1,6 +1,7 @@
 package com.example.dishdiscovery.favorite.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.util.List;
 public class FavoriteFragment extends Fragment implements IFavoriteView, OnFavMealClickListener {
     FragmentFavoriteBinding binding;
     IFavoritePresenter _presenter;
+    private static final String TAG = "FavoriteFragment";
 
 
     @Override
@@ -75,5 +77,11 @@ public class FavoriteFragment extends Fragment implements IFavoriteView, OnFavMe
         Bundle bundle = new Bundle();
         bundle.putString(CONSTANTS.MEAL_ID, mealId);
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_favoriteFragment_to_mealDetailsFragment, bundle);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "onDestroyView: " + "destroyed");
     }
 }

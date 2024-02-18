@@ -59,6 +59,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _presenter = new MealDetailsImpl(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())), MealLocalRepoImpl.getInstance(MealsLocalDatasourceImpl.getInstance(getActivity(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext()))));
         _binding = FragmentMealDetailsBinding.inflate(inflater, container, false);
         return _binding.getRoot();
+
     }
 
 
@@ -80,10 +81,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Instructions"));
         _binding.tabLayout.addTab(_binding.tabLayout.newTab().setText("Video"));
         _binding.tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        _binding.ivFavorite.setOnClickListener(v -> {
-
-
-        });
         _binding.ivAddCalender.setOnClickListener(v -> {
             long today = MaterialDatePicker.todayInUtcMilliseconds();
 
@@ -137,7 +134,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
 
         });
-
         _binding.ivFavorite.setOnClickListener(v -> {
             if (isFavorite) _presenter.removeFromFavorites(meal.idMeal);
             else _presenter.addToFavorites(meal);
@@ -262,6 +258,8 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public void displayMealFromLocal(UserLocalFavMeals meal) {
+        Log.i(TAG, "displayMealFromLocal: " + meal);
+        this.meal = meal.getMeal();
         _adapter = new ViewPagerAdapter(getChildFragmentManager(), getLifecycle());
         _binding.tabLayout.getTabAt(0).setText("Ingredients (" + meal.getIngredients().size() + ")");
         _adapter.setMeal(meal.getMeal());
