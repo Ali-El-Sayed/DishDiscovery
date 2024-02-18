@@ -3,6 +3,7 @@ package com.example.dishdiscovery.repository.LocalRepo;
 import com.example.dishdiscovery.database.db.IMealLocalDatasource;
 import com.example.dishdiscovery.favorite.presenter.OnFavLocalCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnFavouriteCheckCallback;
+import com.example.dishdiscovery.mealDetails.presenter.OnLoadFavMeal;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.weeklyMeals.presenter.OnLocalWeeklyMeals;
@@ -51,5 +52,10 @@ public class MealLocalRepoImpl implements IMealLocalRepo {
     @Override
     public void deleteUserFavoriteMeal(String mealId, OnFavouriteCheckCallback callback) {
         _mealsLocalDatasource.deleteUserFavoriteMeal(mealId, callback);
+    }
+
+    @Override
+    public void getMealById(String mealId, OnLoadFavMeal callback) {
+        _mealsLocalDatasource.getMealById(mealId, callback);
     }
 }

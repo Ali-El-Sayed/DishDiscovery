@@ -1,5 +1,8 @@
 package com.example.dishdiscovery.home.view;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,12 +69,19 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     @Override
     public void onResume() {
         super.onResume();
-        binding.homeScreenLottieContainer.setVisibility(View.VISIBLE);
-        binding.homeScreenLottie.animate();
-        binding.homeScreenLottie.setVisibility(View.VISIBLE);
 
-        presenter.getCategories();
-        presenter.getRandomMeal();
+        if (!isInternetAvailable()) {
+            binding.homeScreenLottie.setAnimation(R.raw.no_internet_animation);
+            binding.homeScreenLottie.loop(true);
+            binding.homeScreenLottie.playAnimation();
+            binding.homeScreenLottieContainer.setVisibility(View.VISIBLE);
+            binding.homeScreenLottie.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(), R.string.connection_failed, Toast.LENGTH_SHORT).show();
+        } else {
+            binding.homeScreenLottie.setAnimation(R.raw.loading_animation);
+            presenter.getCategories();
+            presenter.getRandomMeal();
+        }
     }
 
     @Override
@@ -100,5 +110,12 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
         Bundle bundle = new Bundle();
         bundle.putString(CONSTANTS.CATEGORY_NAME, name);
         Navigation.findNavController(requireView()).navigate(R.id.action_categoryFragment_to_allMealsFragment, bundle);
+    }
+
+    private Boolean isInternetAvailable() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
     }
 }

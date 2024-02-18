@@ -9,4 +9,6 @@ public interface OnFavLocalCallback {
     void onLoadFavMealsSuccess(List<UserLocalFavMeals> userLocalFavMeals);
 
     void onLoadFavMealsError(String message);
+
+
 }

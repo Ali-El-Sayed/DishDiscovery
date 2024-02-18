@@ -18,7 +18,6 @@ public class Meal {
     @NonNull
     public String dateOfTheDay = "";
     @NonNull
-
     public String userId = "";
     @SerializedName("idMeal")
     @Expose

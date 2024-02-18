@@ -67,4 +67,6 @@
     <string name="fixed_email">alielsayed@gmail.com</string>
     <string name="open_source">Open Source</string>
     <string name="searchbar_hint">Search....</string>
+    <string name="connection_failed">Connection Failed</string>
+    <string name="planner">Planner</string>
 </resources>

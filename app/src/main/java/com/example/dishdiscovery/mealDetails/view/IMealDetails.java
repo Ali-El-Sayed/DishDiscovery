@@ -1,6 +1,7 @@
 package com.example.dishdiscovery.mealDetails.view;
 
 import com.example.dishdiscovery.model.Meal;
+import com.example.dishdiscovery.model.UserLocalFavMeals;
 
 public interface IMealDetails {
     void showMealDetails(Meal meal);
@@ -19,4 +20,6 @@ public interface IMealDetails {
     void onRemoveFavSuccess();
 
     void onRemoveFavError(String error);
+
+    void displayMealFromLocal(UserLocalFavMeals meal);
 }

@@ -12,4 +12,5 @@ public interface IMealDetailsPresenter {
     void addToFavorites(Meal meal);
 
     void removeFromFavorites(String mealId);
+    void getMealFromLocal(String mealId);
 }
