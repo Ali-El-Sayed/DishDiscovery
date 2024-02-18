@@ -12,6 +12,11 @@
         android:title="@string/search" />
 
     <item
+        android:id="@+id/weeklyMealsFragment"
+        android:icon="@drawable/icon_weekly"
+        android:title="@string/planner" />
+
+    <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/icon_favorite"
         android:title="@string/favorites" />

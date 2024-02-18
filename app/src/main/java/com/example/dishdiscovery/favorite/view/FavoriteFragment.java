@@ -62,7 +62,7 @@ public class FavoriteFragment extends Fragment implements IFavoriteView, OnFavMe
     @Override
     public void displayLocalFavMeals(List<UserLocalFavMeals> userLocalFavMeals) {
         binding.rvFavoriteMeals.setAdapter(new RvFavoriteAdapter(userLocalFavMeals, this));
-        binding.homeScreenLottie.setVisibility(View.GONE);
+        binding.homeScreenLottieContainer.setVisibility(View.GONE);
     }
 
     @Override

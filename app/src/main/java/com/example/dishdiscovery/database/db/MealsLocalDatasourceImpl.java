@@ -6,6 +6,7 @@ import android.content.Context;
 import com.example.dishdiscovery.database.sharedPreferences.ISharedPreferences;
 import com.example.dishdiscovery.favorite.presenter.OnFavLocalCallback;
 import com.example.dishdiscovery.mealDetails.presenter.OnFavouriteCheckCallback;
+import com.example.dishdiscovery.mealDetails.presenter.OnLoadFavMeal;
 import com.example.dishdiscovery.model.Meal;
 import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.weeklyMeals.presenter.OnLocalWeeklyMeals;
@@ -72,10 +73,16 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
     @Override
     public void isFavorite(String mealId, OnFavouriteCheckCallback callback) {
         _mealsDao.isFavoriteMeal(_sharedPreferences.getUserId(), mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userLocalFavMeals -> {
-            if (userLocalFavMeals != null) callback.isFavorite(true);
-            else callback.isFavorite(false);
+            callback.isFavorite(userLocalFavMeals != null);
         }, throwable -> {
             callback.isFavorite(false);
+        });
+    }
+
+    @Override
+    public void getMealById(String mealId, OnLoadFavMeal callback) {
+        _mealsDao.getMealById(mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userLocalFavMeals -> callback.onLoadFavMealsSuccess(userLocalFavMeals), throwable -> {
+            callback.onLoadFavMealsError(throwable.getMessage());
         });
     }
 }

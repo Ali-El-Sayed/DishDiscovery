@@ -33,4 +33,7 @@ public interface MealsDao {
     // is favorite meal
     @Query("SELECT * FROM UserLocalFavMeals WHERE userId = :userId AND idMeal = :mealId")
     Flowable<UserLocalFavMeals> isFavoriteMeal(String userId, String mealId);
+
+    @Query("SELECT * FROM Meal WHERE idMeal = :mealId")
+    Flowable<UserLocalFavMeals> getMealById(String mealId);
 }

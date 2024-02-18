@@ -5,13 +5,14 @@ import android.util.Pair;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.mealDetails.view.IMealDetails;
 import com.example.dishdiscovery.model.Meal;
+import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.repository.LocalRepo.IMealLocalRepo;
 import com.example.dishdiscovery.repository.RemoteRepo.IMealsRemoteRepo;
 import com.example.dishdiscovery.util.MealParser;
 
 import java.util.List;
 
-public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, OnFavouriteCheckCallback, onSaveUserWeeklyMealsCallBack {
+public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall, OnFavouriteCheckCallback, onSaveUserWeeklyMealsCallBack, OnLoadFavMeal {
 
     private final IMealDetails _view;
     private final IMealsRemoteRepo _remoteRepo;
@@ -47,7 +48,12 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
 
     @Override
     public void removeFromFavorites(String mealId) {
-        _localRepo.deleteUserFavoriteMeal(mealId,this);
+        _localRepo.deleteUserFavoriteMeal(mealId, this);
+    }
+
+    @Override
+    public void getMealFromLocal(String mealId) {
+        _localRepo.getMealById(mealId,this );
     }
 
     @Override
@@ -97,5 +103,15 @@ public class MealDetailsImpl implements IMealDetailsPresenter, IMealNetworkCall,
     @Override
     public void onRemoveFavError(String error) {
         _view.onRemoveFavError(error);
+    }
+
+    @Override
+    public void onLoadFavMealsSuccess(UserLocalFavMeals userLocalFavMeals) {
+        _view.displayMealFromLocal(userLocalFavMeals);
+    }
+
+    @Override
+    public void onLoadFavMealsError(String message) {
+        _view.showError(message);
     }
 }

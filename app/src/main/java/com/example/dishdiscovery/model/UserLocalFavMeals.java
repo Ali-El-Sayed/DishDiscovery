@@ -339,4 +339,64 @@ public class UserLocalFavMeals {
     public String toString() {
         return "Meal{" + "idMeal='" + idMeal + '\'' + ", strMeal='" + strMeal + '\'' + ", strCategory='" + strCategory + '\'' + ", strArea='" + strArea + '\'' + ", strMealThumb='" + strMealThumb + '\'' + '}';
     }
+
+    public Meal getMeal() {
+        Meal meal = new Meal();
+        meal.idMeal = this.idMeal;
+        meal.strMeal = this.strMeal;
+        meal.strCategory = this.strCategory;
+        meal.strArea = this.strArea;
+        meal.strMealThumb = this.strMealThumb;
+        meal.strInstructions = this.strInstructions;
+        meal.strYoutube = this.strYoutube;
+        meal.strIngredient1 = this.strIngredient1;
+        meal.strIngredient2 = this.strIngredient2;
+        meal.strIngredient3 = this.strIngredient3;
+        meal.strIngredient4 = this.strIngredient4;
+        meal.strIngredient5 = this.strIngredient5;
+        meal.strIngredient6 = this.strIngredient6;
+        meal.strIngredient7 = this.strIngredient7;
+        meal.strIngredient8 = this.strIngredient8;
+        meal.strIngredient9 = this.strIngredient9;
+
+        meal.strIngredient10 = this.strIngredient10;
+        meal.strIngredient11 = this.strIngredient11;
+        meal.strIngredient12 = this.strIngredient12;
+
+        meal.strIngredient13 = this.strIngredient13;
+        meal.strIngredient14 = this.strIngredient14;
+        meal.strIngredient15 = this.strIngredient15;
+        meal.strIngredient16 = this.strIngredient16;
+        meal.strIngredient17 = this.strIngredient17;
+        meal.strIngredient18 = this.strIngredient18;
+        meal.strIngredient19 = this.strIngredient19;
+        meal.strIngredient20 = this.strIngredient20;
+        meal.strMeasure1 = this.strMeasure1;
+        meal.strMeasure2 = this.strMeasure2;
+        meal.strMeasure3 = this.strMeasure3;
+        meal.strMeasure4 = this.strMeasure4;
+        meal.strMeasure5 = this.strMeasure5;
+        meal.strMeasure6 = this.strMeasure6;
+        meal.strMeasure7 = this.strMeasure7;
+        meal.strMeasure8 = this.strMeasure8;
+        meal.strMeasure9 = this.strMeasure9;
+        meal.strMeasure10 = this.strMeasure10;
+        meal.strMeasure11 = this.strMeasure11;
+        meal.strMeasure12 = this.strMeasure12;
+        meal.strMeasure13 = this.strMeasure13;
+        meal.strMeasure14 = this.strMeasure14;
+        meal.strMeasure15 = this.strMeasure15;
+        meal.strMeasure16 = this.strMeasure16;
+        meal.strMeasure17 = this.strMeasure17;
+        meal.strMeasure18 = this.strMeasure18;
+        meal.strMeasure19 = this.strMeasure19;
+        meal.strMeasure20 = this.strMeasure20;
+        meal.strSource = this.strSource;
+        meal.ingredients = this.ingredients;
+        meal.measurements = this.measurements;
+
+
+        return meal;
+
+    }
 }

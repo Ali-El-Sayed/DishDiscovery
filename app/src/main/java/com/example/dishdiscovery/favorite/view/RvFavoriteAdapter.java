@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.model.UserLocalFavMeals;
 
@@ -56,7 +57,9 @@ public class RvFavoriteAdapter extends RecyclerView.Adapter<RvFavoriteAdapter.Fa
 
         public void bind(UserLocalFavMeals userLocalFavMeals, OnFavMealClickListener onMealClickListener) {
             mealName.setText(userLocalFavMeals.strMeal);
+
             mealArea.setText(userLocalFavMeals.strArea);
+            Glide.with(itemView.getContext()).load(userLocalFavMeals.strMealThumb).placeholder(R.drawable.icon_ingredient_loading).error(R.drawable.icon_ingredient_failed).into(mealImage);
             itemView.setOnClickListener(v -> onMealClickListener.onFavMealClick(userLocalFavMeals.idMeal));
         }
 

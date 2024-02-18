@@ -1,5 +1,8 @@
 package com.example.dishdiscovery.mealDetails.view;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
@@ -22,6 +25,7 @@ import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
+import com.example.dishdiscovery.model.UserLocalFavMeals;
 import com.example.dishdiscovery.network.Api.MealRemoteDataSourceImpl;
 import com.example.dishdiscovery.repository.LocalRepo.MealLocalRepoImpl;
 import com.example.dishdiscovery.repository.RemoteRepo.MealsRemoteRepo;
@@ -62,8 +66,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().findViewById(R.id.bottom_nav_bar).setVisibility(View.GONE);
+
         String mealId = (String) getArguments().get(CONSTANTS.MEAL_ID);
-        _presenter.getMealById(mealId);
+        if (isInternetAvailable()) _presenter.getMealById(mealId);
+        else _presenter.getMealFromLocal(mealId);
         _presenter.checkIsFavorite(mealId);
         initUI();
 
@@ -232,7 +238,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public void onSavedToFavSuccess() {
-        isFavorite = !isFavorite;
+        _presenter.checkIsFavorite(meal.idMeal);
         _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
         Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
     }
@@ -244,7 +250,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
 
     @Override
     public void onRemoveFavSuccess() {
-        isFavorite = !isFavorite;
+        _presenter.checkIsFavorite(meal.idMeal);
         _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
         Toast.makeText(getContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
     }
@@ -254,5 +260,23 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void displayMealFromLocal(UserLocalFavMeals meal) {
+        _adapter = new ViewPagerAdapter(getChildFragmentManager(), getLifecycle());
+        _binding.tabLayout.getTabAt(0).setText("Ingredients (" + meal.getIngredients().size() + ")");
+        _adapter.setMeal(meal.getMeal());
+        _binding.viewPager.setAdapter(_adapter);
+        _binding.tvMealDetailsName.setText(meal.strMeal);
+        _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
+        _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
+        Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
+    }
+
+    private Boolean isInternetAvailable() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
 
 }
