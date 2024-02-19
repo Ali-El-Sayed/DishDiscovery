@@ -1,13 +1,12 @@
 package com.example.dishdiscovery.network.Api;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.dishdiscovery.AllMeals.presenter.IFilterMealsNetworkCallBack;
 import com.example.dishdiscovery.home.presenter.ICategoriesNetworkCall;
 import com.example.dishdiscovery.home.presenter.IMealNetworkCall;
 import com.example.dishdiscovery.model.Category;
-import com.example.dishdiscovery.network.data.CategoryResponse;
-import com.example.dishdiscovery.network.data.MealResponse;
 import com.example.dishdiscovery.search.presenter.ISearchNetworkCallBack;
 
 import java.io.IOException;
@@ -21,7 +20,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -54,60 +52,36 @@ public class MealRemoteDataSourceImpl implements IMealRemoteDataSource {
     @Override
     public void getCategories(ICategoriesNetworkCall categoriesNetworkCall) {
         Log.i(TAG, "getCategories: Called ");
-        mealsService.getCategories().enqueue(new retrofit2.Callback<CategoryResponse>() {
-            @Override
-            public void onResponse(Call<CategoryResponse> call, retrofit2.Response<CategoryResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Category> categories = response.body().getCategories();
-                    categoriesNetworkCall.onSuccess(categories);
-                } else {
-                    categoriesNetworkCall.onError("Error occurred");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResponse> call, Throwable t) {
-                categoriesNetworkCall.onError(t.getMessage());
-            }
-        });
+        Disposable subscribe = mealsService.getCategories().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        categoryResponse -> {
+                            List<Category> categories = categoryResponse.getCategories();
+                            categoriesNetworkCall.onSuccess(categories);
+                        },
+                        throwable -> categoriesNetworkCall.onError(throwable.getMessage())
+                );
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void getRandomMeal(IMealNetworkCall mealNetworkCall) {
-        mealsService.getRandomMeal().enqueue(new retrofit2.Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, retrofit2.Response<MealResponse> response) {
-                if (response.isSuccessful()) {
-                    mealNetworkCall.onSuccess(response.body().getMeals().get(0));
-                } else {
-                    mealNetworkCall.onError("Error occurred");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                mealNetworkCall.onError(t.getMessage());
-            }
-        });
+        mealsService.getRandomMeal().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealResponse -> mealNetworkCall.onSuccess(mealResponse.getMeals().get(0)),
+                        throwable -> mealNetworkCall.onError(throwable.getMessage())
+                );
     }
 
     @Override
     public void getMealById(String id, IMealNetworkCall mealNetworkCall) {
-        mealsService.getMealById(id).enqueue(new retrofit2.Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, retrofit2.Response<MealResponse> response) {
-                if (response.isSuccessful()) {
-                    mealNetworkCall.onSuccess(response.body().getMeals().get(0));
-                } else {
-                    mealNetworkCall.onError("Error occurred");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                mealNetworkCall.onError(t.getMessage());
-            }
-        });
+        Disposable subscribe = mealsService.getMealById(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        mealResponse -> mealNetworkCall.onSuccess(mealResponse.getMeals().get(0)),
+                        throwable -> mealNetworkCall.onError(throwable.getMessage())
+                );
     }
 
     @Override

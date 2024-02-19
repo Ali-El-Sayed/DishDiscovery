@@ -36,58 +36,85 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
     @SuppressLint("CheckResult")
     @Override
     public void getLocalWeeklyMeals(OnLocalWeeklyMeals callback) {
-        _mealsDao.loadUserWeeklyMeals(_sharedPreferences.getUserId())
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback::onLoadingSuccess
-                        , throwable -> callback.onLoadingError(throwable.getMessage())
-                );
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onLoadingError("User not logged in");
+        } else {
+            _mealsDao.loadUserWeeklyMeals(_sharedPreferences.getUserId())
+                    .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(callback::onLoadingSuccess
+                            , throwable -> callback.onLoadingError(throwable.getMessage())
+                    );
+        }
     }
 
     @Override
     public void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callback) {
-        meal.userId = _sharedPreferences.getUserId();
-        _mealsDao.insertUserWeeklyMeals(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                callback::onSaveUserWeeklyMealsSuccess,
-                throwable -> callback.onSaveUserWeeklyMealsError(throwable.getMessage())
-        );
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onSaveUserWeeklyMealsError("User not logged in");
+        } else {
+            meal.userId = _sharedPreferences.getUserId();
+            _mealsDao.insertUserWeeklyMeals(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                    callback::onSaveUserWeeklyMealsSuccess,
+                    throwable -> callback.onSaveUserWeeklyMealsError(throwable.getMessage())
+            );
+        }
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void deleteUserFavoriteMeal(String mealId, OnFavouriteCheckCallback callback) {
-        String userId = _sharedPreferences.getUserId();
-        _mealsDao.deleteUserFavMeals(userId, mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onRemoveFavSuccess, throwable -> {
-            callback.onRemoveFavError(throwable.getMessage());
-        });
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onRemoveFavError("User not logged in");
+        } else {
+            String userId = _sharedPreferences.getUserId();
+            _mealsDao.deleteUserFavMeals(userId, mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onRemoveFavSuccess, throwable -> {
+                callback.onRemoveFavError(throwable.getMessage());
+            });
+        }
     }
 
     @Override
     public void saveUserFavoriteMeal(UserLocalFavMeals userLocalFavMeals, OnFavouriteCheckCallback callback) {
-        _mealsDao.insertUserFavMeals(userLocalFavMeals).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onAddToFavSuccess, throwable -> {
-            callback.onAddToFavError(throwable.getMessage());
-        });
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onAddToFavError("User not logged in");
+        } else
+            _mealsDao.insertUserFavMeals(userLocalFavMeals).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onAddToFavSuccess, throwable -> {
+                callback.onAddToFavError(throwable.getMessage());
+            });
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void getUserFavoriteMeals(OnFavLocalCallback callback) {
-        _mealsDao.loadUserFavMeals(_sharedPreferences.getUserId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadFavMealsSuccess);
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onLoadFavMealsError("User not logged in");
+        } else {
+            _mealsDao.loadUserFavMeals(_sharedPreferences.getUserId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadFavMealsSuccess, throwable -> callback.onLoadFavMealsError(throwable.getMessage()));
+        }
     }
 
     @SuppressLint("CheckResult")
     @Override
     public void isFavorite(String mealId, OnFavouriteCheckCallback callback) {
-        _mealsDao.isFavoriteMeal(_sharedPreferences.getUserId(), mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userLocalFavMeals -> {
-            callback.isFavorite(userLocalFavMeals != null);
-        }, throwable -> {
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
             callback.isFavorite(false);
-        });
+        } else {
+            _mealsDao.isFavoriteMeal(_sharedPreferences.getUserId(), mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(userLocalFavMeals -> {
+                callback.isFavorite(userLocalFavMeals != null);
+            }, throwable -> {
+                callback.isFavorite(false);
+            });
+        }
     }
 
     @Override
     public void getMealById(String mealId, OnLoadFavMeal callback) {
-        _mealsDao.getMealById(mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadFavMealsSuccess, throwable -> {
-            callback.onLoadFavMealsError(throwable.getMessage());
-        });
+        if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
+            callback.onLoadFavMealsError("User not logged in");
+        } else {
+            _mealsDao.getMealById(mealId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onLoadFavMealsSuccess, throwable -> {
+                callback.onLoadFavMealsError(throwable.getMessage());
+            });
+        }
     }
 }

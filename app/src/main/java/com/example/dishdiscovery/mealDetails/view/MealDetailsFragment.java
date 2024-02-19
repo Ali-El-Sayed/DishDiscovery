@@ -1,7 +1,6 @@
 package com.example.dishdiscovery.mealDetails.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +21,6 @@ import com.example.dishdiscovery.database.db.MealsLocalDatasourceImpl;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentMealDetailsBinding;
-import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.mealDetails.presenter.IMealDetailsPresenter;
 import com.example.dishdiscovery.mealDetails.presenter.MealDetailsImpl;
 import com.example.dishdiscovery.model.Meal;
@@ -183,8 +180,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         outState.putString(CONSTANTS.MEAL_AREA, _binding.tvMealDetailsArea.getText().toString());
         outState.putString(CONSTANTS.MEAL_CATEGORY, _binding.tvMealDetailsCategory.getText().toString());
 
-        getActivity().startActivity(new Intent(getActivity(), HomeScreenActivity.class));
-        getActivity().finish();
+
     }
 
     @Override
@@ -208,18 +204,16 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tvMealDetailsName.setText(meal.strMeal);
         _binding.tvMealDetailsArea.setText("Area : " + meal.strArea);
         _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
-        Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
+        Glide.with(getActivity()).load(meal.strMealThumb).into(_binding.ivMealDetails);
         _binding.detailsScreenLottieContainer.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSaveUserWeeklyMealsSuccess() {
-        Toast.makeText(getActivity(), "Meal added to your weekly meals", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -239,24 +233,20 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
     public void onSavedToFavSuccess() {
         _presenter.checkIsFavorite(meal.idMeal);
         _binding.ivFavorite.setImageResource(R.drawable.icon_favorite_filled);
-        Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSavedToFavError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRemoveFavSuccess() {
         _presenter.checkIsFavorite(meal.idMeal);
         _binding.ivFavorite.setImageResource(R.drawable.icon_favorite);
-        Toast.makeText(getContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRemoveFavError(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -272,11 +262,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
         _binding.tvMealDetailsCategory.setText("Category : " + meal.strCategory);
         Glide.with(getContext()).load(meal.strMealThumb).into(_binding.ivMealDetails);
         _binding.detailsScreenLottieContainer.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private Boolean isInternetAvailable() {

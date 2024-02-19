@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">اكتشاف الأطباق</string>
+    <string name="action_settings">الإعدادات</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">الشاشة الأولى</string>
+    <string name="second_fragment_label">الشاشة الثانية</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
+
+    <string name="lorem_ipsum">
+        لوريم إيبسوم هو نص شائع بديل في صناعة الطباعة والتنسيق.
+        لوريم إيبسوم هو نص شائع بديل في صناعة الطباعة والتنسيق.
+        لوريم إيبسوم هو نص شائع بديل في صناعة الطباعة والتنسيق.
+        لوريم إيبسوم هو نص شائع بديل في صناعة الطباعة والتنسيق.
+        لوريم إيبسوم هو نص شائع بديل في صناعة الطباعة والتنسيق.
+    </string>
+
+    <string name="login">تسجيل الدخول</string>
+    <string name="sign_in_with_google">تسجيل الدخول باستخدام جوجل</string>
+    <string name="e_mail">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="title_activity_register">التسجيل</string>
+    <string name="register">التسجيل</string>
+    <string name="hello_blank_fragment">مرحبًا بك في الشاشة الفارغة</string>
+    <string name="title_activity_home_screen">شاشة البداية</string>
+    <string name="categories">الفئات</string>
+    <string name="favorites">المفضلة</string>
+    <string name="search">بحث</string>
+    <string name="home">الرئيسية</string>
+    <string name="koshari">كشري</string>
+    <string name="egypt">مصر</string>
+    <string name="meal_of_the_day">وجبة اليوم</string>
+    <string name="meal_details">تفاصيل الوجبة</string>
+    <string name="ingredients">المكونات</string>
+    <string name="category_dessert">الفئة: الحلويات</string>
+    <string name="area_egypt">المنطقة: مصر</string>
+    <string name="default_web_client_id">231419560562-ifas24hu6224d025ibejh1tpbn1s0ic9.apps.googleusercontent.com</string>
+    <string name="fixed_password">Alielsayed@22</string>
+    <string name="fixed_email">alielsayed@gmail.com</string>
+    <string name="open_source">مصدر مفتوح</string>
+    <string name="searchbar_hint">...ابحث</string>
+    <string name="connection_failed">فشل الاتصال</string>
+    <string name="planner">المخطط</string>
+    <string name="oops_you_have_eaten_all_the_meals">...عفواً، لقد تناولت جميع الوجبات</string>
+    <string name="add_some_meals_to_your_favorite_list">...أضف بعض الوجبات إلى قائمة المفضلة لديك</string>
+    <string name="skip"><![CDATA[تخطى >]]></string>
+</resources>
