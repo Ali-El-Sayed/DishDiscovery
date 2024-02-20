@@ -64,9 +64,11 @@ public class WeeklyMealsFragment extends Fragment implements OnWeeklyMealClickLi
 
     @Override
     public void showWeeklyMeals(List<Meal> userWeeklyMeals) {
-        _binding.rvWeeklyMeals.setAdapter(new WeeklyMealsAdapter(userWeeklyMeals, this));
-        _binding.homeScreenLottieContainer.setVisibility(View.GONE);
-        _binding.homeScreenLottie.setVisibility(View.GONE);
+        if (userWeeklyMeals.size() > 0) {
+            _binding.homeScreenLottieContainer.setVisibility(View.GONE);
+            _binding.homeScreenLottie.setVisibility(View.GONE);
+            _binding.rvWeeklyMeals.setAdapter(new WeeklyMealsAdapter(userWeeklyMeals, this));
+        }
     }
 
     @Override

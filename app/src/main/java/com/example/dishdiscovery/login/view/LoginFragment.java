@@ -16,12 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.R;
 import com.example.dishdiscovery.authDataSource.FirebaseAuthentication;
 import com.example.dishdiscovery.database.firebaseRealtime.FirebaseRealtimeImpl;
 import com.example.dishdiscovery.database.sharedPreferences.SharedPreferencesImpl;
 import com.example.dishdiscovery.databinding.FragmentLoginBinding;
+import com.example.dishdiscovery.home.HomeScreenActivity;
 import com.example.dishdiscovery.login.presenter.ILoginPresenter;
 import com.example.dishdiscovery.login.presenter.LoginPresenter;
 import com.example.dishdiscovery.repository.authRepo.AuthRepository;
@@ -111,6 +111,11 @@ public class LoginFragment extends Fragment implements ILogin {
             mGoogleSignInClient.revokeAccess();
             Intent intent = mGoogleSignInClient.getSignInIntent();
             signInLauncher.launch(intent);
+        });
+        binding.tvSkip.setOnClickListener(v -> {
+            presenter.saveUserId("");
+            startActivity(new Intent(getActivity(), HomeScreenActivity.class));
+            getActivity().finish();
         });
     }
 

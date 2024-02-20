@@ -1,6 +1,7 @@
 package com.example.dishdiscovery.search.view;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,14 +35,18 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SearchFragment extends Fragment implements ISearchView, OnMealClickListener {
     private static final String TAG = "SearchFragment";
     FragmentSearchBinding binding;
-
-    Observable<String> searchObservable;
     ISearchPresenter searchPresenter;
     private Disposable textChangeDisposable;
+    private String categoryName = "";
+    private String areaName = "";
+
+    private String ingredientName = "";
+
 
     public SearchFragment() {
     }
@@ -53,8 +58,7 @@ public class SearchFragment extends Fragment implements ISearchView, OnMealClick
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -78,7 +82,22 @@ public class SearchFragment extends Fragment implements ISearchView, OnMealClick
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    emitter.onNext(s.toString()); // Emit the updated text
+                    if (binding.chipArea.isChecked()) {
+                        categoryName = ingredientName = "";
+                        areaName = s.toString();
+                        emitter.onNext("");
+                    } else if (binding.chipCategory.isChecked()) {
+                        areaName = ingredientName = "";
+                        categoryName = s.toString();
+                        emitter.onNext("");
+                    } else if (binding.chipIngredient.isChecked()) {
+                        areaName = categoryName = "";
+                        ingredientName = s.toString();
+                        emitter.onNext("");
+                    } else {
+                        areaName = categoryName = ingredientName = "";
+                        emitter.onNext(s);
+                    }
                 }
 
                 @Override
@@ -95,21 +114,42 @@ public class SearchFragment extends Fragment implements ISearchView, OnMealClick
         });
 
         // Subscribe to text changes
-        textChangeDisposable = textChangeObservable.debounce(600, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
+        textChangeDisposable = textChangeObservable.debounce(600, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(updatedText -> {
                     Log.i(TAG, "onViewCreated: " + updatedText);
                     searchPresenter.getSearchResults(updatedText.toString());
                 });
+
     }
 
 
+    @SuppressLint("CheckResult")
     @Override
     public void showSearchResult(List<Meal> meals) {
         if (meals.isEmpty())
             Toast.makeText(requireContext(), "No meals found", Toast.LENGTH_SHORT).show();
-        MealSearchAdapter adapter = new MealSearchAdapter(meals, this);
-        binding.rvSearchResults.setAdapter(adapter);
+
+        Observable<List<Meal>> mealsObservable = Observable.just(meals);
+
+        // filer meals by category and area
+        mealsObservable.subscribeOn(Schedulers.io())
+                .map(
+                        mealList -> {
+                            if (!categoryName.isEmpty()) {
+                                return Meal.filterMealsByCategory(mealList, categoryName);
+                            } else if (!areaName.isEmpty()) {
+                                return Meal.filterMealsByArea(mealList, areaName);
+                            } else if (!ingredientName.isEmpty()) {
+                                return Meal.filterMealsByIngredient(mealList, ingredientName);
+                            }
+                            return mealList;
+                        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mealList -> {
+                    MealSearchAdapter adapter = new MealSearchAdapter(mealList, this);
+                    binding.rvSearchResults.setAdapter(adapter);
+                });
+
 
     }
 

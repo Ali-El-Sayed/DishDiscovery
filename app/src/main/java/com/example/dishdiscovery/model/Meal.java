@@ -258,6 +258,36 @@ public class Meal {
         this.strMealThumb = strMealThumb;
     }
 
+    public static List<Meal> filterMealsByCategory(List<Meal> mealList, String categoryName) {
+        List<Meal> filteredMeals = new ArrayList<>();
+        for (Meal meal : mealList) {
+            if (meal.strCategory.toLowerCase().contains(categoryName.toLowerCase())) {
+                filteredMeals.add(meal);
+            }
+        }
+        return filteredMeals;
+    }
+
+    public static List<Meal> filterMealsByArea(List<Meal> mealList, String areaName) {
+        List<Meal> filteredMeals = new ArrayList<>();
+        for (Meal meal : mealList) {
+            if (meal.strArea.toLowerCase().contains(areaName.toLowerCase())) {
+                filteredMeals.add(meal);
+            }
+        }
+        return filteredMeals;
+    }
+
+    public static List<Meal> filterMealsByIngredient(List<Meal> mealList, String ingredientName) {
+        List<Meal> filteredMeals = new ArrayList<>();
+        for (Meal meal : mealList) {
+            if (meal.ingredients.contains(ingredientName)) {
+                filteredMeals.add(meal);
+            }
+        }
+        return filteredMeals;
+    }
+
     public List<String> getIngredients() {
         return ingredients;
     }
