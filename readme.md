@@ -7,6 +7,7 @@ Welcome to the Weekly Meals Planner app repository! This Android application is 
 - [Installation](#installation)
 - [Features](#features)
 - [Technology Stack](#technology-stack)
+- [Demo](#Demo)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -48,6 +49,10 @@ Once installed, open the app and follow the on-screen instructions to set up you
 - **ViewPager 2**: Use ViewPager 2 for seamless navigation between different fragments.
 - **Navigation Component**: Implement navigation using Android Jetpack's Navigation Component for a more robust and consistent user experience.
 - **Lottie Animation & Material Design 3**: Enhance the app with Lottie animations and adhere to Material Design 3 guidelines for a modern and visually appealing UI.
+
+## Demo
+
+[![Watch the video](demo\demo.m4v)](demo/demo.m4v)
 
 ## Contributing
 
