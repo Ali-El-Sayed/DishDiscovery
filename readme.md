@@ -52,7 +52,9 @@ Once installed, open the app and follow the on-screen instructions to set up you
 
 ## Demo
 
-[![Watch the video](https://example.com/demo_thumbnail.png)](https://drive.google.com/file/d/1qgOzTWfIh1PL-VGlyrKYxtuB-AcQzggh/view?usp=sharing)
+https://github.com/Ali-El-Sayed/DishDiscovery/assets/63204358/1dab108b-d18b-466e-9ebd-f74373b64d14
+
+
 
 ## Contributing
 
