@@ -52,7 +52,7 @@ Once installed, open the app and follow the on-screen instructions to set up you
 
 ## Demo
 
-[![Watch the video](demo\demo.m4v)](demo/demo.m4v)
+[![Watch the video](https://github.com/Ali-El-Sayed/DishDiscovery/blob/master/demo/demo.m4v)](demo/demo.m4v)
 
 ## Contributing
 
