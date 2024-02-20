@@ -44,7 +44,8 @@
                 android:inputType="textEmailAddress"
                 android:text="@string/fixed_email"
                 android:textColor="@color/btn_txt_color"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:endIconMode="clear_text" />
         </com.google.android.material.textfield.TextInputLayout>
         <!--Password input field    -->
         <com.google.android.material.textfield.TextInputLayout

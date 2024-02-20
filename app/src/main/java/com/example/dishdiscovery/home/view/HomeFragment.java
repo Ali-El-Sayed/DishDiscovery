@@ -42,7 +42,9 @@ public class HomeFragment extends Fragment implements IHome, OnCardItemClick {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new HomePresenter(this, MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(), FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
+        presenter = new HomePresenter(this,
+                MealsRemoteRepo.getInstance(MealRemoteDataSourceImpl.getInstance(),
+                        FirebaseRealtimeImpl.getInstance(), SharedPreferencesImpl.getInstance(getActivity().getApplicationContext())));
     }
 
     @Override

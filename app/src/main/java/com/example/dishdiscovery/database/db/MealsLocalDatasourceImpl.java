@@ -2,6 +2,7 @@ package com.example.dishdiscovery.database.db;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.dishdiscovery.database.sharedPreferences.ISharedPreferences;
 import com.example.dishdiscovery.favorite.presenter.OnFavLocalCallback;
@@ -16,7 +17,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
-
+    private static final String TAG = "MealsLocalDatasourceImp";
     private static MealsLocalDatasourceImpl _instance = null;
     private final ISharedPreferences _sharedPreferences;
     private final MealsDao _mealsDao;
@@ -37,7 +38,7 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
     @Override
     public void getLocalWeeklyMeals(OnLocalWeeklyMeals callback) {
         if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
-            callback.onLoadingError("User not logged in");
+            callback.onLoadingError("PLEASE LOGIN");
         } else {
             _mealsDao.loadUserWeeklyMeals(_sharedPreferences.getUserId())
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -47,10 +48,11 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void saveUserWeeklyMeals(Meal meal, onSaveUserWeeklyMealsCallBack callback) {
         if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
-            callback.onSaveUserWeeklyMealsError("User not logged in");
+            callback.onSaveUserWeeklyMealsError("PLEASE LOGIN");
         } else {
             meal.userId = _sharedPreferences.getUserId();
             _mealsDao.insertUserWeeklyMeals(meal).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
@@ -77,10 +79,12 @@ public class MealsLocalDatasourceImpl implements IMealLocalDatasource {
     public void saveUserFavoriteMeal(UserLocalFavMeals userLocalFavMeals, OnFavouriteCheckCallback callback) {
         if (_sharedPreferences.getUserId() == null || _sharedPreferences.getUserId().isEmpty()) {
             callback.onAddToFavError("User not logged in");
-        } else
+        } else {
+            userLocalFavMeals.userId = _sharedPreferences.getUserId();
             _mealsDao.insertUserFavMeals(userLocalFavMeals).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(callback::onAddToFavSuccess, throwable -> {
                 callback.onAddToFavError(throwable.getMessage());
             });
+        }
     }
 
     @SuppressLint("CheckResult")

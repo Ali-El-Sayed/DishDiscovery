@@ -51,13 +51,15 @@ public class FavoriteFragment extends Fragment implements IFavoriteView, OnFavMe
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        binding.homeScreenLottie.setVisibility(View.VISIBLE);
         _presenter.getLocalFavMeals();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.homeScreenLottieContainer.setVisibility(View.VISIBLE);
+        binding.homeScreenLottie.setVisibility(View.VISIBLE);
+        binding.homeScreenLottie.animate();
         binding.rvFavoriteMeals.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
@@ -71,6 +73,7 @@ public class FavoriteFragment extends Fragment implements IFavoriteView, OnFavMe
 
     @Override
     public void displayLocalMealsError(String error) {
+        Log.i(TAG, "displayLocalMealsError: " + error);
         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
     }
 

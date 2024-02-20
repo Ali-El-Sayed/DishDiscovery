@@ -122,6 +122,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetails {
                     String dayName = outFormat.format(date);
                     meal.dayOfTheWeek = dayName;
                     _presenter.saveUserWeeklyMeals(meal);
+                    Log.i(TAG, "initUI: " + meal.dayOfTheWeek);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
