@@ -1,6 +1,6 @@
 # Dish Discovery 🍽️📅
 
-Welcome to the Weekly Meals Planner app repository! This Android application is designed to help users plan their meals for the week with ease. Whether you're looking for new recipes, organizing your weekly meals, or simply seeking meal inspiration, this app has got you covered.
+Android application designed to help users plan their meals for the week with ease. Whether you're looking for new recipes, organizing your weekly meals, or simply seeking meal inspiration, this app has got you covered.
 
 ## Table of Contents
 
